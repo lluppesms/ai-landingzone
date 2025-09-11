@@ -74,7 +74,7 @@ stages:
       - template: pipes/infra-only-pipe.yml
         parameters:
           environments: ['${{ parameters.deployToEnvironment }}']
-          bicepVersion: ['${{ parameters.bicepVersion }}']
+          bicepVersion: '${{ parameters.bicepVersion }}'
           runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
           runGHASScan: false
           singleEnvironment: 'true'
@@ -85,7 +85,7 @@ stages:
       - template: pipes/infra-only-pipe.yml
         parameters:
           environments: ['DEV', 'QA', 'PROD']
-          bicepVersion: ['${{ parameters.bicepVersion }}']
+          bicepVersion: '${{ parameters.bicepVersion }}'
           runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
           runGHASScan: false
           createResourceGroup: ${{ parameters.createResourceGroup }}

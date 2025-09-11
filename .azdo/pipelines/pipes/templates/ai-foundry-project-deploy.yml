@@ -2,7 +2,7 @@
 # Template to deploy a Project inside of an AI Foundry Hub
 # See https://learn.microsoft.com/en-us/azure/ai-studio/how-to/create-projects?tabs=azurecli
 # ----------------------------------------------------------------------------------------------------
-# This template gets the appName from the variable group: AI.Doc.Review.Keys
+# This template gets the appName from the variable group: AI.LZ.Keys
 #   and the resource group name from /vars/var-<env>.yml
 # ----------------------------------------------------------------------------------------------------
 parameters:
@@ -28,7 +28,7 @@ jobs:
   - job: DeployAIHProject${{ parameters.environmentName }}Job
     displayName: Deploy AIH Project  ${{ parameters.environmentName }}
     variables:
-      - group: AI.Doc.Review.Keys # need to get the appName from here
+      - group: AI.LZ.Keys # need to get the appName from here
       - name: environmentName
         value: ${{ parameters.environmentName }}
       - name: environmentNameUpper

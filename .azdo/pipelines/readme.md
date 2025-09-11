@@ -27,7 +27,7 @@ These Azure DevOps YML files were designed to run as multi-stage environment dep
 
 ---
 
-## Create the variable group "AI.Doc.Review.Keys"
+## Create the variable group "AI.LZ.Keys"
 
 This project needs a variable group with at least one variable in it that uniquely identifies your resources.
 
@@ -41,7 +41,7 @@ To create this variable groups, customize and run this command in the Azure Clou
    az pipelines variable-group create
      --organization=https://dev.azure.com/<yourAzDOOrg>/
      --project='<yourAzDOProject>'
-     --name AI.Doc.Review.Keys
+     --name AI.LZ.Keys
      --variables
          appName='<uniqueString>-smartflow'
          resourceGroupPrefix='rg-smartflow'

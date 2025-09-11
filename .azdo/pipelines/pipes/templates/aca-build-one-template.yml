@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------------------------------
 # Template to build a Azure Container App Docker image and put it to a container registry
 # ----------------------------------------------------------------------------------------------------
-# This template gets the appName from the variable group: AI.Doc.Review.Keys
+# This template gets the appName from the variable group: AI.LZ.Keys
 #   and the resource group name from /vars/var-<env>.yml
 # ----------------------------------------------------------------------------------------------------
 parameters:
@@ -35,7 +35,7 @@ jobs:
   - job: Build${{ parameters.acrAppName }}${{ parameters.environmentName }}Job
     displayName: Build ${{ parameters.acrAppName }} ${{ parameters.environmentName }}
     variables:
-      - group: AI.Doc.Review.Keys # need to get the appName from here
+      - group: AI.LZ.Keys # need to get the appName from here
       # Bring in environment specific variable files
       - ${{ if eq(lower(parameters.environmentName), 'dev') }}:
           - template: ../../vars/var-dev.yml

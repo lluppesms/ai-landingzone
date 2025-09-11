@@ -7,10 +7,12 @@ parameters:
     default: ['DEV']
   - name: templateFolderName
     default: 'infra/bicep'
-  - name: templateFileName
-    default: 'main.bicep'
-  - name: parameterFileName
-    default: 'main.azdo.bicepparam'
+  # - name: templateFileName
+  #   default: 'main.bicep'
+  # - name: parameterFileName
+  #   default: 'main.azdo.bicepparam'
+  - name: bicepVersion
+    default: 'basic'
   - name: deploymentMode
     default: 'Incremental'
   - name: singleEnvironment
@@ -18,12 +20,6 @@ parameters:
   - name: createResourceGroup
     default: true
   - name: publicAccessEnabled
-    default: true
-  - name: createDnsZones
-    default: true
-  - name: deployAIHub
-    default: true
-  - name: deployBatchApp
     default: true
   - name: addRoleAssignments
     default: true
@@ -61,8 +57,8 @@ stages:
             parameters:
               environmentName: ${{ environmentName }}
               templateFolderName: ${{ parameters.templateFolderName }}
-              templateFileName: ${{ parameters.templateFileName }}
-              parameterFileName: ${{ parameters.parameterFileName }}
+              templateFileName: 'main-${{ parameters.bicepVersion }}.bicep'
+              parameterFileName: 'main-${{ parameters.bicepVersion }}-azdo.bicepparam'
               createResourceGroup: ${{ parameters.createResourceGroup }}
               publicAccessEnabled: ${{ parameters.publicAccessEnabled }}
               createDnsZones: ${{ parameters.createDnsZones }}

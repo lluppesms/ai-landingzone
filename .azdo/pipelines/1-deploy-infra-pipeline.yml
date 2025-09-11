@@ -31,7 +31,6 @@ parameters:
       - PROD
       - DEV-QA-PROD
     default: DEV
-
   - name: bicepVersion
     displayName: Version - Basic=public, Advanced=VNET
     type: string
@@ -40,7 +39,6 @@ parameters:
       - basic
       - advanced
     default: test
-
   - name: bicepDeploymentMode
     displayName: Deploy Mode
     type: string
@@ -73,21 +71,19 @@ stages:
       - template: pipes/infra-only-pipe.yml
         parameters:
           environments: ['${{ parameters.deployToEnvironment }}']
+          bicepVersion: ['${{ parameters.bicepVersion }}']
           runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
-          runGHASScan: ${{ parameters.runGHASScan }}
+          runGHASScan: false
           singleEnvironment: 'true'
           createResourceGroup: ${{ parameters.createResourceGroup }}
-          publicAccessEnabled: ${{ parameters.publicAccessEnabled }}
-          createDnsZones: ${{ parameters.createDnsZones }}
           addRoleAssignments: ${{ parameters.addRoleAssignments }}
 
   - ${{ if eq(parameters.deployToEnvironment, 'DEV-QA-PROD') }}:
       - template: pipes/infra-only-pipe.yml
         parameters:
           environments: ['DEV', 'QA', 'PROD']
+          bicepVersion: ['${{ parameters.bicepVersion }}']
           runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
-          runGHASScan: ${{ parameters.runGHASScan }}
+          runGHASScan: false
           createResourceGroup: ${{ parameters.createResourceGroup }}
-          publicAccessEnabled: ${{ parameters.publicAccessEnabled }}
-          createDnsZones: ${{ parameters.createDnsZones }}
           addRoleAssignments: ${{ parameters.addRoleAssignments }}

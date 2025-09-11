@@ -31,14 +31,16 @@ parameters:
       - PROD
       - DEV-QA-PROD
     default: DEV
+    
   - name: bicepVersion
-    displayName: Version - Basic=public, Advanced=VNET
+    displayName: 'Version - Basic=public, Advanced=VNET'
     type: string
     values:
       - test
       - basic
       - advanced
     default: test
+
   - name: bicepDeploymentMode
     displayName: Deploy Mode
     type: string

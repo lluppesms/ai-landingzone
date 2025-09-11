@@ -31,15 +31,15 @@ parameters:
       - PROD
       - DEV-QA-PROD
     default: DEV
-    
+
   - name: bicepVersion
-    displayName: 'Version - Basic=public, Advanced=VNET'
+    displayName: Basic or Advanced
     type: string
     values:
       - test
       - basic
       - advanced
-    default: test
+    default: DEV
 
   - name: bicepDeploymentMode
     displayName: Deploy Mode
@@ -49,6 +49,7 @@ parameters:
       - Validation
       - Complete
     default: Incremental
+    
   - name: createResourceGroup
     displayName: Create Resource Group?
     type: boolean

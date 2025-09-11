@@ -7,10 +7,6 @@ parameters:
     default: ['DEV']
   - name: templateFolderName
     default: 'infra/bicep'
-  # - name: templateFileName
-  #   default: 'main.bicep'
-  # - name: parameterFileName
-  #   default: 'main.azdo.bicepparam'
   - name: bicepVersion
     default: 'basic'
   - name: deploymentMode

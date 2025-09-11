@@ -39,7 +39,7 @@ parameters:
       - test
       - basic
       - advanced
-    default: DEV
+    default: test
 
   - name: bicepDeploymentMode
     displayName: Deploy Mode

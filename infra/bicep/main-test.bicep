@@ -71,3 +71,9 @@ module logAnalytics './modules/monitor/loganalytics.bicep' = {
     tags: tags
   }
 }
+
+// --------------------------------------------------------------------------------------------------------------
+// -- Outputs ---------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------
+output SUBSCRIPTION_ID string = subscription().subscriptionId
+output LOGANALYTICS_WORKSPACE_ID string = logAnalytics.outputs.logAnalyticsWorkspaceId

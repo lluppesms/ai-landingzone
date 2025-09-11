@@ -4,18 +4,15 @@
 
 Base Pipeline Definitions:
 
-- **[1-infra-build-deploy-pipeline.yml](1-infra-build-deploy-pipeline.yml):** Creates all of the Azure resources by deploying the [main.bicep](../../infra/bicep/main.bicep) template.
-- **[2a-deploy-infra-pipeline.yml](2a-deploy-infra-pipeline.yml):** Creates all of the Azure resources by deploying the [main.bicep](../../infra/bicep/main.bicep) template.
-- **[2b-build-deploy-all-pipeline.yml](2b-build-deploy-all-pipeline.yml):** Pipeline to build all apps in the app code folder, store the resulting images in the Azure Container Registry, then deploy to the Azure Container Apps environments.
+- **[1-deploy-infra-pipeline.yml](1-deploy-infra-pipeline.yml):** Creates all of the Azure resources by deploying the [main-advanced.bicep](../../infra/bicep/main-advanced.bicep) template or  [main-basic.bicep](../../infra/bicep/main-basic.bicep) template.
+- **[2-build-deploy-apps-pipeline.yml](2-build-deploy-apps-pipeline.yml):** Pipeline to build all apps in the app code folder, store the resulting images in the Azure Container Registry, then deploy to the Azure Container Apps environments.
   > Note: This pipeline pushes into the ACR created by the first pipeline. The service principal used to run this pipeline must have `acrpush` rights to the ACR, which will need to be added manually after the ACR is created in the Access Control page of the Container Registry.
-- **[2c-build-deploy-one-pipeline.yml](2c-build-deploy-one-pipeline.yml):** Pipeline to build the one set code in the app code folder, store the resulting image in the Azure Container Registry, then deploying it to the Azure Container Apps environment.
-  > Note: This pipeline pushes into the ACR created by the first pipeline. The service principal used to run this pipeline must have `acrpush` rights to the ACR, which will need to be added manually after the ACR is created in the Access Control page of the Container Registry.
-- **[3-build-pr-pipeline.yml](3-build-pr-pipeline.yml):** Runs each time a Pull Request is submitted and includes results in the PR
-- **[4-scan-pipeline.yml](4-scan-pipeline.yml):** Runs a periodic scan of the app for security vulnerabilities
+- **[3-deploy-aif-project-pipeline.yml](3-deploy-aif-project-pipeline.yml):** Creates an AI Foundry Project in an existing AI Foundry by deploying the [main-project.bicep](../../infra/bicep/main-project.bicep) template.
+- **[4-pr-pipeline.yml](3-build-pr-pipeline.yml):** Runs each time a Pull Request is submitted and includes results in the PR
+- **[5-scan-pipeline.yml](4-scan-pipeline.yml):** Runs a periodic scan of the app for security vulnerabilities
 
 Testing and Development Pipelines
 
-- **[azd-pipeline.yml](azd-pipeline.yml):** This pipeline deploys the app using the "azd up" command and parameters, just like a developer would do.
 - **[testing-az-import-container-pipeline.yml](testing-az-import-container-pipeline.yml):** Imports a container image into Azure Container Registry from an external source, then deploys it to Azure Container Apps.
   - Note: This import is needed until a build agent can be deployed in the same VNET as the container registry.
   - After that, it can be changed to build locally and deploy to the Container Registry and to Azure locally.

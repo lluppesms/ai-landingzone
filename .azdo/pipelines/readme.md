@@ -43,8 +43,8 @@ To create this variable groups, customize and run this command in the Azure Clou
      --project='<yourAzDOProject>'
      --name AI.LZ.Keys
      --variables
-         appName='<uniqueString>-smartflow'
-         resourceGroupPrefix='rg-smartflow'
+         appName='<uniqueString>-ailz'
+         resourceGroupPrefix='rg-ailz'
          AdminIpAddress='<yourPublicIpAddress>'       (optional - if you want to get access to the KV and ACR)
          AdminPrincipalId='<yourAdminPrincipalId>'    (optional - if you want to get access to the KV and ACR)
 ```

@@ -38,14 +38,14 @@ To create this variable groups, customize and run this command in the Azure Clou
 ```bash
    az login
 
-   az pipelines variable-group create
-     --organization=https://dev.azure.com/<yourAzDOOrg>/
-     --project='<yourAzDOProject>'
-     --name AI.LZ.Keys
-     --variables
-         appName='<uniqueString>-ailz'
-         resourceGroupPrefix='rg-ailz'
-         AdminIpAddress='<yourPublicIpAddress>'       (optional - if you want to get access to the KV and ACR)
+   az pipelines variable-group create `
+     --organization=https://dev.azure.com/<yourAzDOOrg>/ `
+     --project='<yourAzDOProject>' `
+     --name AI.LZ.Keys `
+     --variables `
+         appName='<uniqueString>-ailz' `
+         resourceGroupPrefix='rg-ailz' `
+         AdminIpAddress='<yourPublicIpAddress>'  `    (optional - if you want to get access to the KV and ACR)
          AdminPrincipalId='<yourAdminPrincipalId>'    (optional - if you want to get access to the KV and ACR)
 ```
 

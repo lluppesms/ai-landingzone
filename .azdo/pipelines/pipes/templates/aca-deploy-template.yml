@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------------------------------
 # Template to deploy a Docker image to a Container App
 # ----------------------------------------------------------------------------------------------------
-# This template gets the appName from the variable group: AI.LZ.Keys
+# This template gets the appName from the variable group: AI.LZ.Secrets
 #   and the resource group name from /vars/var-<env>.yml
 # ----------------------------------------------------------------------------------------------------
 parameters:
@@ -32,7 +32,7 @@ jobs:
   - job: DeployApp${{ parameters.containerAppName }}${{ parameters.environmentName }}Job
     displayName: Deploy ${{ parameters.containerAppName }} ${{ parameters.environmentName }}
     variables:
-      - group: AI.LZ.Keys # need to get the appName from here
+      - group: AI.LZ.Secrets # need to get the appName from here
       # Bring in environment specific variable files
       - ${{ if eq(lower(parameters.environmentName), 'dev') }}:
           - template: ../../vars/var-dev.yml

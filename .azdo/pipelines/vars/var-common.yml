@@ -7,10 +7,10 @@ variables:
   # - name: resourceGroupPrefix   (moved to variable group, or you can put it here if you prefer)
   #   value: 'this is unique to your subscription - define in a variable group or on the pipeline variables!'
 
-  - name: location
-    value: 'eastus2'
-  - name: openAI_deploy_location 
-    value:  'eastus2'
+  - name: INSTANCE_NUMBER
+    value: '001'
+  - name: GLOBAL_REGION_CODE
+    value: 'US'
 
   - name: workingDirectoryInfra
     value: '/infra/bicep'

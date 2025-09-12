@@ -20,7 +20,6 @@ param instanceNumber = '#{INSTANCE_NUMBER}#'
 param regionCode = '#{GLOBAL_REGION_CODE}#' 
 
 param businessOwnerTag  = '#{BUSINESS_OWNER}#'
-param requestorNameTag  = '#{REQUESTOR_NAME}#'
 param applicationOwnerTag  = '#{APPLICATION_OWNER}#'
 param costCenterTag  = '#{COST_CENTER}#'
 

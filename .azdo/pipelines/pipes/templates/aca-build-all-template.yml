@@ -69,7 +69,7 @@ jobs:
             echo "##vso[task.setvariable variable=appNameLower]$appNameLower"
             $appNameNoDashesLower="$(APP_NAME)".ToLower().Replace("-", "")
 
-            $resourceGroupName="$(RESOURCEGROUP_PREFIX)-$environmentCodeLower-${{ vars.INSTANCE_NUMBER }}".ToLower()
+            $resourceGroupName="$(RESOURCEGROUP_PREFIX)-$environmentCodeLower-$(INSTANCE_NUMBER)".ToLower()
             echo "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
             
             echo "##vso[task.setvariable variable=appNameNoDashesLower]$appNameNoDashesLower"

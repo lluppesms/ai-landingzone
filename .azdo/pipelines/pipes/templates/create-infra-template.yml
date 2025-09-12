@@ -55,7 +55,7 @@ jobs:
       - name: appsToDeployParm
         value: ${{ parameters.appsToDeploy }}
       - name: deployUIApp
-        value: ${{ contains(toLower(parameters.appsToDeploy), 'ui') }}
+        value: ${{ contains(lower(parameters.appsToDeploy), 'ui') }}
       - name: addRoleAssignments
         value: '${{ lower(parameters.addRoleAssignments) }}'
 

@@ -73,10 +73,12 @@ jobs:
             echo "##vso[task.setvariable variable=imageName]$imageName"
             $imageNameBranch="$($acrFolderNameLower)/$($acrAppNameLower):$(Build.SourceBranchName)"
             echo "##vso[task.setvariable variable=imageNameBranch]$imageNameBranch"
-            $containerRegistryName="$($appNameNoDashesLower)cr$($environmentCodeLower)"
+
+            $containerRegistryName="cr$($appNameNoDashesLower)$($environmentCodeLower)$(INSTANCE_NUMBER)"
             echo "##vso[task.setvariable variable=containerRegistryName]$containerRegistryName"
-            $containerRegistryUrl="$($appNameNoDashesLower)cr$($environmentCodeLower).azurecr.io"
+            $containerRegistryUrl="cr$($appNameNoDashesLower)$($environmentCodeLower)$(INSTANCE_NUMBER).azurecr.io"
             echo "##vso[task.setvariable variable=containerRegistryUrl]$containerRegistryUrl"
+
             $agentIpAddress = $(Invoke-WebRequest -Uri "https://api.ipify.org").Content
             echo "##vso[task.setvariable variable=agentIpAddress]$agentIpAddress"
 

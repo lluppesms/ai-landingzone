@@ -58,7 +58,7 @@ jobs:
             $acrFolderNameLower="${{ parameters.acrFolderName }}".ToLower()
             $acrAppNameLower="${{ parameters.acrAppName }}".ToLower()
 
-            $resourceGroupName="$(RESOURCEGROUP_PREFIX)-$environmentCodeLower".ToLower()
+            $resourceGroupName="$(RESOURCEGROUP_PREFIX)-$environmentCodeLower-${{ vars.INSTANCE_NUMBER }}".ToLower()
             echo "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
             
             $caAppName="$($appNameNoDashesLower)-ca-$($containerAppNameLower)-$($environmentCodeLower)"

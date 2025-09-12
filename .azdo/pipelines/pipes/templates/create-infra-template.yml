@@ -21,8 +21,8 @@ parameters:
     default: false
   - name: createDnsZones
     default: true
-  - name: deployUIApp
-    default: true
+  - name: appsToDeploy
+    default: 'none'
   - name: addRoleAssignments
     default: true
 
@@ -51,7 +51,7 @@ jobs:
       - name: createDnsZones
         value: '${{ lower(parameters.createDnsZones) }}'
       - name: deployUIApp
-        value: '${{ lower(parameters.deployUIApp) }}'
+        value: ${{ parameters.appsToDeploy == 'ui' }}
       - name: addRoleAssignments
         value: '${{ lower(parameters.addRoleAssignments) }}'
 
@@ -122,7 +122,7 @@ jobs:
           echo "createDnsZones=$(createDnsZones)"
           echo "parameters.createDnsZones=${{ parameters.createDnsZones }}"
           echo "deployUIApp=$(deployUIApp)"
-          echo "parameters.deployUIApp=${{ parameters.deployUIApp }}"
+          echo "parameters.appsToDeploy=${{ parameters.appsToDeploy }}"
           echo "addRoleAssignments=$(addRoleAssignments)"
           echo "parameters.addRoleAssignments=${{ parameters.addRoleAssignments }}"
 

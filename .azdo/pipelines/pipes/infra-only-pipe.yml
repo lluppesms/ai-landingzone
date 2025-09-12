@@ -60,6 +60,6 @@ stages:
               createResourceGroup: ${{ parameters.createResourceGroup }}
               publicAccessEnabled: ${{ parameters.publicAccessEnabled }}
               createDnsZones: ${{ parameters.createDnsZones }}
-              deployUIApp: ${{ parameters.appsToDeploy == 'ui' }}
+              appsToDeploy: ${{ parameters.appsToDeploy }}
               addRoleAssignments: ${{ parameters.addRoleAssignments }}
               deploymentMode: ${{ parameters.deploymentMode }}

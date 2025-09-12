@@ -65,11 +65,11 @@ jobs:
           script: |
             $environmentNameLower="${{ parameters.environmentName }}".ToLower()
             echo "##vso[task.setvariable variable=environmentNameLower]$environmentNameLower"
-            $appNameLower="$(appName)".ToLower()
+            $appNameLower="$(APP_NAME)".ToLower()
             echo "##vso[task.setvariable variable=appNameLower]$appNameLower"
-            $appNameNoDashesLower="$(appName)".ToLower().Replace("-", "")
+            $appNameNoDashesLower="$(APP_NAME)".ToLower().Replace("-", "")
 
-            $resourceGroupName="$(resourceGroupPrefix)-$environmentNameLower".ToLower()
+            $resourceGroupName="$(RESOURCEGROUP_PREFIX)-$environmentNameLower".ToLower()
             echo "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
             
             echo "##vso[task.setvariable variable=appNameNoDashesLower]$appNameNoDashesLower"

@@ -82,20 +82,20 @@ jobs:
             $environmentNameLower="${{ parameters.environmentName }}".ToLower()
             echo "##vso[task.setvariable variable=environmentNameLower]$environmentNameLower"
 
-            $appNameLower="$(appName)".ToLower()
+            $appNameLower="$(APP_NAME)".ToLower()
             echo "##vso[task.setvariable variable=appNameLower]$appNameLower"
 
-            $appNameLowerNoDashes="$(appName)".ToLower().Replace("-", "")
+            $appNameLowerNoDashes="$(APP_NAME)".ToLower().Replace("-", "")
             echo "##vso[task.setvariable variable=appNameLowerNoDashes]$appNameLowerNoDashes"
 
             $projectName = "$(projectName)"
             if ([string]::IsNullOrWhiteSpace($projectName)) {
               # Case: no project name supplied
-              $resourceGroupName = ("$(resourceGroupPrefix)-$environmentNameLower-$(instanceNumber)").ToLower()
+              $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower-$(instanceNumber)").ToLower()
             }
             else {
               # Case: project name supplied (note the double hyphen before instanceNumber per Bash logic)
-              $resourceGroupName = ("$(resourceGroupPrefix)-$environmentNameLower--$(instanceNumber)-$projectName").ToLower()
+              $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower--$(instanceNumber)-$projectName").ToLower()
             }
             Write-Host "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
 
@@ -113,7 +113,7 @@ jobs:
           echo "parameterFile=$(parameterFile)"
           echo "deploymentMode=${{ parameters.deploymentMode }}"
           echo "resourceGroupName=$(resourceGroupName)"
-          echo "appName=$(appName)"
+          echo "appName=$(APP_NAME)"
           echo "appNameLower=$(appNameLower)"
           echo "appNameLowerNoDashes=$(appNameLowerNoDashes)"
           echo "runDateTime=$(runDateTime)"

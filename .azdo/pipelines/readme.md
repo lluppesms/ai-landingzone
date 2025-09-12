@@ -87,14 +87,6 @@ See [Azure DevOps Service Connections](https://learn.microsoft.com/en-us/azure/d
 
 Customize your deploy by editing the [vars/var-common.yml](./vars/var-common.yml) file. This file contains the following variables which you can change:
 
-in ENV VAR Files
-  RESOURCEGROUP_LOCATION='eastus2'
-  AIFOUNDRY_DEPLOY_LOCATION='eastus2'
-  OPENAI_DEPLOY_LOCATION='eastus2'
-  AI_MODEL_CAPACITY='20'
-
-
-
 ```bash
   - name: INSTANCE_NUMBER
     value: '001'

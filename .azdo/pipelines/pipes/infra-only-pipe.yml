@@ -13,6 +13,8 @@ parameters:
     default: 'Incremental'
   - name: singleEnvironment
     default: 'false'
+  - name: appsToDeploy
+    default: 'none'
   - name: createResourceGroup
     default: true
   - name: publicAccessEnabled
@@ -58,7 +60,6 @@ stages:
               createResourceGroup: ${{ parameters.createResourceGroup }}
               publicAccessEnabled: ${{ parameters.publicAccessEnabled }}
               createDnsZones: ${{ parameters.createDnsZones }}
-              deployAIHub: ${{ parameters.deployAIHub }}
-              deployBatchApp: ${{ parameters.deployBatchApp }}
+              deployUIApp: ${{ parameters.appsToDeploy == 'ui' }}
               addRoleAssignments: ${{ parameters.addRoleAssignments }}
               deploymentMode: ${{ parameters.deploymentMode }}

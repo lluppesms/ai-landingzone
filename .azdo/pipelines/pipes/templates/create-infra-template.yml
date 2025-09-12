@@ -21,9 +21,7 @@ parameters:
     default: false
   - name: createDnsZones
     default: true
-  - name: deployAIHub
-    default: true
-  - name: deployBatchApp
+  - name: deployUIApp
     default: true
   - name: addRoleAssignments
     default: true
@@ -52,10 +50,8 @@ jobs:
         value: '${{ lower(parameters.publicAccessEnabled) }}'
       - name: createDnsZones
         value: '${{ lower(parameters.createDnsZones) }}'
-      - name: deployAIHub
-        value: '${{ lower(parameters.deployAIHub) }}'
-      - name: deployBatchApp
-        value: '${{ lower(parameters.deployBatchApp) }}'
+      - name: deployUIApp
+        value: '${{ lower(parameters.deployUIApp) }}'
       - name: addRoleAssignments
         value: '${{ lower(parameters.addRoleAssignments) }}'
 
@@ -90,8 +86,16 @@ jobs:
             $appNameLowerNoDashes="$(appName)".ToLower().Replace("-", "")
             echo "##vso[task.setvariable variable=appNameLowerNoDashes]$appNameLowerNoDashes"
 
-            $resourceGroupName="$(resourceGroupPrefix)-$environmentNameLower".ToLower()
-            echo "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
+            $projectName = "$(projectName)"
+            if ([string]::IsNullOrWhiteSpace($projectName)) {
+              # Case: no project name supplied
+              $resourceGroupName = ("$(resourceGroupPrefix)-$environmentNameLower-$(instanceNumber)").ToLower()
+            }
+            else {
+              # Case: project name supplied (note the double hyphen before instanceNumber per Bash logic)
+              $resourceGroupName = ("$(resourceGroupPrefix)-$environmentNameLower--$(instanceNumber)-$projectName").ToLower()
+            }
+            Write-Host "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
 
             $runDateTime=(Get-Date).ToString("yyyyMMdd-HHmmss")
             echo "##vso[task.setvariable variable=runDateTime]$runDateTime"
@@ -117,10 +121,8 @@ jobs:
           echo "parameters.publicAccessEnabled=${{ parameters.publicAccessEnabled }}"
           echo "createDnsZones=$(createDnsZones)"
           echo "parameters.createDnsZones=${{ parameters.createDnsZones }}"
-          echo "deployAIHub=$(deployAIHub)"
-          echo "deployBatchApp=$(deployBatchApp)"
-          echo "parameters.deployAIHub=${{ parameters.deployAIHub }}"
-          echo "parameters.deployBatchApp=${{ parameters.deployBatchApp }}"
+          echo "deployUIApp=$(deployUIApp)"
+          echo "parameters.deployUIApp=${{ parameters.deployUIApp }}"
           echo "addRoleAssignments=$(addRoleAssignments)"
           echo "parameters.addRoleAssignments=${{ parameters.addRoleAssignments }}"
 

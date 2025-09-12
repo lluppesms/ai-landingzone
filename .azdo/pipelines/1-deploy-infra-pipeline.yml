@@ -36,10 +36,10 @@ parameters:
     displayName: Basic or Advanced
     type: string
     values:
-      - test
       - basic
       - advanced
-    default: test
+      - test
+    default: basic
 
   - name: appsToDeploy
     displayName: Which Apps to build and deploy?

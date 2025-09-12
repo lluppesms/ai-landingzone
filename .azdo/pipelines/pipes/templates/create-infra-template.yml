@@ -54,10 +54,8 @@ jobs:
         value: '${{ lower(parameters.publicAccessEnabled) }}'
       - name: appsToDeployParm
         value: ${{ parameters.appsToDeploy }}
-      - name: deployUIAppStr
-        value: ${{ contains(toLower(parameters.appsToDeploy), 'ui') }}
       - name: deployUIApp
-        value: ${{ if contains(toLower(parameters.appsToDeploy), 'ui') }}true${{ else }}false${{ end }}
+        value: ${{ contains(toLower(parameters.appsToDeploy), 'ui') }}
       - name: addRoleAssignments
         value: '${{ lower(parameters.addRoleAssignments) }}'
 
@@ -131,7 +129,6 @@ jobs:
           echo "parameters.publicAccessEnabled=${{ parameters.publicAccessEnabled }}"
           echo "parameters.appsToDeploy=${{ parameters.appsToDeploy }}"
           echo "appsToDeployParm=$(appsToDeployParm)"
-          echo "deployUIAppStr=$(deployUIAppStr)"
           echo "deployUIApp=$(deployUIApp)"
           echo "addRoleAssignments=$(addRoleAssignments)"
           echo "parameters.addRoleAssignments=${{ parameters.addRoleAssignments }}"

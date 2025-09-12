@@ -53,9 +53,9 @@ jobs:
       - name: publicAccessEnabled
         value: '${{ lower(parameters.publicAccessEnabled) }}'
       - name: appsToDeployParm
-        value: ${{ lower(parameters.appsToDeploy) }}
+        value: ${{ parameters.appsToDeploy }}
       - name: deployUIApp
-        value: $(appsToDeployParm == 'ui')
+        value: $(contains(toLower(parameters.appsToDeploy, 'ui')))
       - name: addRoleAssignments
         value: '${{ lower(parameters.addRoleAssignments) }}'
 

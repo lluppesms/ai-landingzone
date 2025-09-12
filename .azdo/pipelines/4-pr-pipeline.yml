@@ -32,7 +32,6 @@ stages:
   - template: pipes/aca-build-one-pipe.yml
     parameters:
       pushToACR: false
-      deployUI: false
       apps: [ 
         { containerAppName: 'ui',  acrAppName: 'chatui',  projectFolderName: 'src/website/chatui', port: '8080' }
       ] 

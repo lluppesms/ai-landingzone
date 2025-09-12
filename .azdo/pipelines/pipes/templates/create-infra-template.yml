@@ -50,8 +50,10 @@ jobs:
         value: '${{ lower(parameters.publicAccessEnabled) }}'
       - name: createDnsZones
         value: '${{ lower(parameters.createDnsZones) }}'
+      - name: appsToDeployParm
+        value: ${{ parameters.appsToDeploy }}
       - name: deployUIApp
-        value: ${{ parameters.appsToDeploy == 'ui' }}
+        value: $(appsToDeployParm == 'ui')
       - name: addRoleAssignments
         value: '${{ lower(parameters.addRoleAssignments) }}'
 

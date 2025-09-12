@@ -25,6 +25,8 @@ parameters:
     default: 'none'
   - name: addRoleAssignments
     default: true
+  - name: projectName
+    default: ''
 
 # ----------------------------------------------------------------------------------------------------
 jobs:
@@ -88,16 +90,17 @@ jobs:
             $appNameLowerNoDashes="$(APP_NAME)".ToLower().Replace("-", "")
             echo "##vso[task.setvariable variable=appNameLowerNoDashes]$appNameLowerNoDashes"
 
-            $projectName = "$(projectName)"
+            $projectName = "${{ parameters.projectName }}"
             if ([string]::IsNullOrWhiteSpace($projectName)) {
-              # Case: no project name supplied
               $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower-$(instanceNumber)").ToLower()
             }
             else {
-              # Case: project name supplied (note the double hyphen before instanceNumber per Bash logic)
               $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower--$(instanceNumber)-$projectName").ToLower()
             }
             Write-Host "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
+
+            $rootResourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower-$(instanceNumber)").ToLower()
+            Write-Host "##vso[task.setvariable variable=rootResourceGroupName]$rootResourceGroupName"
 
             $runDateTime=(Get-Date).ToString("yyyyMMdd-HHmmss")
             echo "##vso[task.setvariable variable=runDateTime]$runDateTime"
@@ -112,7 +115,10 @@ jobs:
           echo "parameterFileName=${{ parameters.parameterFileName }}"
           echo "parameterFile=$(parameterFile)"
           echo "deploymentMode=${{ parameters.deploymentMode }}"
+          echo "RESOURCEGROUP_PREFIX=$(RESOURCEGROUP_PREFIX)"
+          echo "instanceNumber=$(instanceNumber)"
           echo "resourceGroupName=$(resourceGroupName)"
+          echo "rootResourceGroupName=$(rootResourceGroupName)"
           echo "appName=$(APP_NAME)"
           echo "appNameLower=$(appNameLower)"
           echo "appNameLowerNoDashes=$(appNameLowerNoDashes)"

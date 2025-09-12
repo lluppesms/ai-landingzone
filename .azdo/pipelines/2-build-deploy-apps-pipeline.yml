@@ -50,7 +50,7 @@ stages:
       jobs:
         - template: pipes/templates/scan-code-template.yml
           parameters:
-            environmentName: 'DEV'
+            environmentCode: 'DEV'
             runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
             runGHASScan: false
 

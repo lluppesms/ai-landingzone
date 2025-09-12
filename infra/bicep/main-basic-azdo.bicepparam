@@ -46,13 +46,10 @@ param makeWebAppsPublic = true
 
 param deployAPIM = empty('#{deployAPIM}#') ? false : toLower('#{deployAPIM}#') == 'true'
 // Should we deploy the API Management service?
-param deployAPIApp = empty('#{deployAPI}#') ? false : toLower('#{deployAPI}#') == 'true'
-// Should we deploy the API app?
-param deployUIApp = empty('#{deployUI}#') ? false : toLower('#{deployUI}#') == 'true'
+param deployUIApp = empty('#{deployUIApp}#') ? false : toLower('#{deployUIApp}#') == 'true'
 // Should we deploy the UI app?
 
 // applications
-param apiImageName = empty('#{API_IMAGE_NAME}#') ? null : '#{API_IMAGE_NAME}#'
 param uiImageName = empty('#{UI_IMAGE_NAME}#') ? null : '#{UI_IMAGE_NAME}#'
 
 // only for Microsoft internal deployments

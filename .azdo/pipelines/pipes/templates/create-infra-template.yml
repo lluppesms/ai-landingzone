@@ -92,14 +92,14 @@ jobs:
 
             $projectName = "${{ parameters.projectName }}"
             if ([string]::IsNullOrWhiteSpace($projectName)) {
-              $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower-$(instanceNumber)").ToLower()
+              $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower-$(INSTANCE_NUMBER)").ToLower()
             }
             else {
-              $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower--$(instanceNumber)-$projectName").ToLower()
+              $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower--$(INSTANCE_NUMBER)-$projectName").ToLower()
             }
             Write-Host "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
 
-            $rootResourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower-$(instanceNumber)").ToLower()
+            $rootResourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentNameLower-$(INSTANCE_NUMBER)").ToLower()
             Write-Host "##vso[task.setvariable variable=rootResourceGroupName]$rootResourceGroupName"
 
             $runDateTime=(Get-Date).ToString("yyyyMMdd-HHmmss")
@@ -116,7 +116,7 @@ jobs:
           echo "parameterFile=$(parameterFile)"
           echo "deploymentMode=${{ parameters.deploymentMode }}"
           echo "RESOURCEGROUP_PREFIX=$(RESOURCEGROUP_PREFIX)"
-          echo "instanceNumber=$(instanceNumber)"
+          echo "instanceNumber=$(INSTANCE_NUMBER)"
           echo "resourceGroupName=$(resourceGroupName)"
           echo "rootResourceGroupName=$(rootResourceGroupName)"
           echo "appName=$(APP_NAME)"

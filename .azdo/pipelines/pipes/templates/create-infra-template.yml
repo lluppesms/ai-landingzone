@@ -124,6 +124,7 @@ jobs:
           echo "createDnsZones=$(createDnsZones)"
           echo "parameters.createDnsZones=${{ parameters.createDnsZones }}"
           echo "deployUIApp=$(deployUIApp)"
+          echo "appsToDeployParm=$(appsToDeployParm)"
           echo "parameters.appsToDeploy=${{ parameters.appsToDeploy }}"
           echo "addRoleAssignments=$(addRoleAssignments)"
           echo "parameters.addRoleAssignments=${{ parameters.addRoleAssignments }}"

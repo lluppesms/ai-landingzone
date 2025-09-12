@@ -91,8 +91,6 @@ param vm_name string?
 // --------------------------------------------------------------------------------------------------------------
 // Container App Environment
 // --------------------------------------------------------------------------------------------------------------
-@description('Name of the Container Apps Environment workload profile to use for the app')
-param appContainerAppEnvironmentWorkloadProfileName string = containerAppEnvironmentWorkloadProfiles[0].name
 @description('Workload profiles for the Container Apps environment')
 param containerAppEnvironmentWorkloadProfiles array = [
   {
@@ -102,6 +100,8 @@ param containerAppEnvironmentWorkloadProfiles array = [
     maximumCount: 10
   }
 ]
+@description('Name of the Container Apps Environment workload profile to use for the app')
+param appContainerAppEnvironmentWorkloadProfileName string = containerAppEnvironmentWorkloadProfiles[0].name
 
 // --------------------------------------------------------------------------------------------------------------
 // Container App Entra Parameters

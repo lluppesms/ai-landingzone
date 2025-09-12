@@ -38,7 +38,7 @@ parameters:
     values:
       - basic
       - advanced
-      - test
+    #  - test
     default: basic
 
   - name: appsToDeploy

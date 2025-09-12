@@ -52,10 +52,8 @@ jobs:
 
       - name: publicAccessEnabled
         value: '${{ lower(parameters.publicAccessEnabled) }}'
-      - name: createDnsZones
-        value: '${{ lower(parameters.createDnsZones) }}'
       - name: appsToDeployParm
-        value: ${{ parameters.appsToDeploy }}
+        value: ${{ lower(parameters.appsToDeploy) }}
       - name: deployUIApp
         value: $(appsToDeployParm == 'ui')
       - name: addRoleAssignments
@@ -129,11 +127,9 @@ jobs:
 
           echo "publicAccessEnabled=$(publicAccessEnabled)"
           echo "parameters.publicAccessEnabled=${{ parameters.publicAccessEnabled }}"
-          echo "createDnsZones=$(createDnsZones)"
-          echo "parameters.createDnsZones=${{ parameters.createDnsZones }}"
-          echo "deployUIApp=$(deployUIApp)"
-          echo "appsToDeployParm=$(appsToDeployParm)"
           echo "parameters.appsToDeploy=${{ parameters.appsToDeploy }}"
+          echo "appsToDeployParm=$(appsToDeployParm)"
+          echo "deployUIApp=$(deployUIApp)"
           echo "addRoleAssignments=$(addRoleAssignments)"
           echo "parameters.addRoleAssignments=${{ parameters.addRoleAssignments }}"
 

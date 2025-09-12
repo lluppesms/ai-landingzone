@@ -93,6 +93,7 @@ stages:
           singleEnvironment: 'true'
           createResourceGroup: ${{ parameters.createResourceGroup }}
           publicAccessEnabled: ${{ parameters.publicAccessEnabled }}
+          appsToDeploy: ${{ parameters.appsToDeploy }}
           addRoleAssignments: ${{ parameters.addRoleAssignments }}
           runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
           runGHASScan: false
@@ -104,6 +105,7 @@ stages:
           bicepVersion: '${{ parameters.bicepVersion }}'
           createResourceGroup: ${{ parameters.createResourceGroup }}
           publicAccessEnabled: ${{ parameters.publicAccessEnabled }}
+          appsToDeploy: ${{ parameters.appsToDeploy }}
           addRoleAssignments: ${{ parameters.addRoleAssignments }}
           runMSDevSecOpsScan: ${{ parameters.runMSDevSecOpsScan }}
           runGHASScan: false

@@ -16,3 +16,29 @@ variables:
     value: '/infra/bicep'
   - name: workingDirectoryIgnore
     value: '/docs'
+
+  # Not used at this time...  just here to prevent replacement warnings
+  - name: APIM_BASE_URL
+    value: null
+  - name: APIM_ACCESS_URL
+    value: null
+  - name: APIM_ACCESS_KEY
+    value: null
+  - name: ENTRA_TENANT_ID
+    value: null
+  - name: ENTRA_API_AUDIENCE
+    value: null
+  - name: ENTRA_SCOPES
+    value: null
+  - name: ENTRA_REDIRECT_URI
+    value: null
+  - name: ENTRA_CLIENT_ID
+    value: null
+  - name: ENTRA_CLIENT_SECRET
+    value: null
+  - name: deployAPIM
+    value: null
+  - name: UI_IMAGE_NAME
+    value: null
+  - name: MOCK_USER_UPN
+    value: null

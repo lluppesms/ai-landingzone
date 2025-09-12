@@ -44,16 +44,16 @@ param entraClientId = empty('#{ENTRA_CLIENT_ID}#') ? null : '#{ENTRA_CLIENT_ID}#
 @secure()
 param entraClientSecret = empty('#{ENTRA_CLIENT_SECRET}#') ? null : '#{ENTRA_CLIENT_SECRET}#'
 
-param addRoleAssignments = toLower('#{addRoleAssignments}#') == 'true'
+param addRoleAssignments = empty('#{addRoleAssignments}#') ? false : toLower('#{addRoleAssignments}#') == 'true'
 param publicAccessEnabled = true
 param makeWebAppsPublic = true
 
-param deployAPIM = toLower('#{deployAPIM}#') == 'true'
-param deployUIApp = toLower('#{deployUIApp}#') == 'true'
-param uiImageName = '#{UI_IMAGE_NAME}#'
+param deployAPIM = empty('#{deployAPIM}#') ? false : toLower('#{deployAPIM}#') == 'true'
+param deployUIApp = empty('#{deployUIApp}#') ? false : toLower('#{deployUIApp}#') == 'true'
+param uiImageName = empty('#{UI_IMAGE_NAME}#') ? null : '#{UI_IMAGE_NAME}#'
 
 // only for Microsoft internal deployments
-param mockUserUpn = false
+param mockUserUpn = empty('#{MOCK_USER_UPN}#') ? false : toLower('#{MOCK_USER_UPN}#') == 'true' // Mock user UPN for testing purposes
 
 // use consumption for non-customer deployments
 param containerAppEnvironmentWorkloadProfiles = [

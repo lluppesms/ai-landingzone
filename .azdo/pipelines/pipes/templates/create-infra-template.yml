@@ -39,6 +39,8 @@ jobs:
     variables:
       - name: environmentCode
         value: ${{ parameters.environmentcode }}
+      - name: environment_Code  # needed for the parameter file so it will match GH Action...
+        value: ${{ parameters.environmentcode }}
       - name: environmentCodeUpper
         value: ${{ upper(parameters.environmentcode) }}
       - name: environmentCodeLower

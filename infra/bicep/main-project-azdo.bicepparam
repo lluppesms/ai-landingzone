@@ -21,6 +21,7 @@ param existingAiCentralAppName = '#{APP_NAME}#'
 param existingAiCentralResourceGroupName = '#{ROOTRESOURCEGROUPNAME}#'
 
 param environmentName = '#{ENVIRONMENT_CODE}#'
+param location = empty('#{RESOURCEGROUP_LOCATION}#') ? null : '#{RESOURCEGROUP_LOCATION}#'
 
 param myIpAddress = empty('#{MY_IP_ADDRESS}#') ? null : '#{MY_IP_ADDRESS}#'
 param principalId = '#{USER_PRINCIPAL_ID}#'

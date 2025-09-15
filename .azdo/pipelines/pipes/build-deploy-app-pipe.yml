@@ -35,6 +35,7 @@ stages:
     - stage: Deploy${{ app.containerAppName }}${{ environmentCode }}App
       displayName: Deploy ${{ app.containerAppName }} ${{ environmentCode }}
       condition: and(succeeded(), eq(lower('${{ parameters.deployAction }}'), 'build-deploy'))
+      dependsOn: Build${{ app.containerAppName }}${{ environmentCode }}App
       jobs:
         - template: templates/aca-deploy-template.yml
           parameters:
@@ -47,6 +48,7 @@ stages:
     - stage: Create${{ app.containerAppName }}${{ environmentCode }}App
       displayName: Create ${{ app.containerAppName }} ${{ environmentCode }}
       condition: and(succeeded(), eq(lower('${{ parameters.deployAction }}'), 'create-build-deploy'))
+      dependsOn: Build${{ app.containerAppName }}${{ environmentCode }}App
       jobs:
         - template: templates/aca-create-template.yml
           parameters:

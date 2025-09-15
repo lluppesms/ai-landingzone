@@ -60,6 +60,10 @@ jobs:
         value: ${{ contains(lower(parameters.appsToDeploy), 'ui') }}
       - name: addRoleAssignments
         value: '${{ lower(parameters.addRoleAssignments) }}'
+      - name: projectName
+        value: ${{ parameters.projectName }}
+      - name: projectNumber
+        value: ${{ parameters.projectNumber }}  
 
       # Bring in environment common variable file
       - template: ../../vars/var-service-connections.yml
@@ -123,8 +127,8 @@ jobs:
           echo "deploymentMode=${{ parameters.deploymentMode }}"
           echo "instanceNumber=$(INSTANCE_NUMBER)"
           echo "RESOURCEGROUP_PREFIX=$(RESOURCEGROUP_PREFIX)"
-          echo "projectNumber=${{ parameters.projectNumber }}"
-          echo "projectName=${{ parameters.projectName }}"
+          echo "projectNumber=$(projectNumber)"
+          echo "projectName=$(projectName)"
           echo "resourceGroupName=$(resourceGroupName)"
           echo "rootResourceGroupName=$(rootResourceGroupName)"
           echo "appName=$(APP_NAME)"

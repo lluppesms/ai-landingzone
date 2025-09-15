@@ -94,8 +94,8 @@ jobs:
           scriptType: bash
           scriptLocation: inlineScript
           inlineScript: |
-            echo "Logging in to ${{ parameters.registryName }}.azurecr.io"
-            az acr login -n ${{ parameters.registryName }}
+            echo "Logging in to $(acrName)"
+            az acr login -n $(acrName)
 
       # ----------------------------------------------------------------------------------------------------
       # Deploy the container app image

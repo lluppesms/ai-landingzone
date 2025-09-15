@@ -36,8 +36,8 @@ param costCenterTag  = '#{COST_CENTER}#'
 param createDnsZones = true
 param publicAccessEnabled = false
 
-param admin_username = empty('#{ADMIN_USERNAME}#') ? null : '#{ADMIN_USERNAME}#' // This is the username for the admin user of jumpboxvm
-param admin_password = empty('#{ADMIN_PASSWORD}#') ? null : '#{ADMIN_PASSWORD}#' // This is the password for the admin user of jumpboxvm
+param vm_username = empty('#{VM_USERNAME}#') ? null : '#{VM_USERNAME}#' // This is the username for the admin user of jumpboxvm
+param vm_password = empty('#{VM_PASSWORD}#') ? null : '#{VM_PASSWORD}#' // This is the password for the admin user of jumpboxvm
 param vm_name = empty('#{VM_NAME}#') ? null : '#{VM_NAME}#' // optional Jumpbox VM name - otherwise created by resourceNames.bicep
 
 param existingVnetName = empty('#{VNET_RESOURCE_NAME}#') ? null : '#{VNET_RESOURCE_NAME}#'

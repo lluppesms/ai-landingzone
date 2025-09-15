@@ -45,10 +45,6 @@ jobs:
       # ----------------------------------------------------------------------------------------------------
       # Set up the environment variables
       # ----------------------------------------------------------------------------------------------------
-            x--environment ${{ inputs.CONTAINER_APP_ENV_NAME }} \
-            x--user-assigned "${{ inputs.USER_ASSIGNED_IDENTITY_ID }}" \
-            x--registry-server "${{ inputs.ACR_NAME }}.azurecr.io" \
-
       - task: PowerShell@2
         name: createVariables
         displayName: Create Variables

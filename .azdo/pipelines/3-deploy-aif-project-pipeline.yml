@@ -73,6 +73,8 @@ stages:
         parameters:
           environments: ['${{ parameters.deployToEnvironment }}']
           bicepVersion: 'project'
+          projectName: ${{ parameters.projectName }}
+          projectNumber: ${{ parameters.projectNumber }}
           singleEnvironment: 'true'
           createResourceGroup: ${{ parameters.createResourceGroup }}
           appsToDeploy: 'none'
@@ -85,6 +87,8 @@ stages:
         parameters:
           environments: ['DEV', 'QA', 'PROD']
           bicepVersion: 'project'
+          projectName: ${{ parameters.projectName }}
+          projectNumber: ${{ parameters.projectNumber }}
           createResourceGroup: ${{ parameters.createResourceGroup }}
           appsToDeploy: 'none'
           addRoleAssignments: 'true'

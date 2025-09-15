@@ -103,7 +103,7 @@ jobs:
             }
             else {
               echo "Project Name WAS provided, using it for resource group naming convention"
-              $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentCodeLower--$(INSTANCE_NUMBER)-$projectName").ToLower()
+              $resourceGroupName = ("$(RESOURCEGROUP_PREFIX)-$environmentCodeLower-$(INSTANCE_NUMBER)-$projectName").ToLower()
             }
             echo "resourceGroupName=$resourceGroupName"
             Write-Host "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"

@@ -22,9 +22,9 @@ parameters:
 stages:
 - ${{ each environmentCode in parameters.environments }}:
   - ${{ each app in parameters.apps }}:
-    - stage: Build${{ app.containerAppName }}${{ environmentCode }}App
+    - stage: Build${{ app.containerAppName }}${{ environmentCode }}
       displayName: Build ${{ app.containerAppName }} ${{ environmentCode }}
-      condition: or(eq(${{ parameters.singleEnvironment }}, 'true'), eq(upper('${{ environmentCode }}'), 'DEV'), and(eq(upper('${{ environmentCode }}'), 'QA'), succeeded('CreateInfraDEV')), and(eq(upper('${{ environmentCode }}'), 'PROD'), succeeded('CreateInfraQA')))
+      condition: or(eq(${{ parameters.singleEnvironment }}, 'true'), eq(upper('${{ environmentCode }}'), 'DEV'), and(eq(upper('${{ environmentCode }}'), 'QA'), succeeded('Deploy${{ app.containerAppName }}Dev')), and(eq(upper('${{ environmentCode }}'), 'PROD'), succeeded('Deploy${{ app.containerAppName }}QA')))
       jobs:
         - template: templates/aca-build-template.yml
           parameters:
@@ -35,7 +35,7 @@ stages:
             pushToACR: ${{ parameters.pushToACR }}
             updateFirewall: ${{ parameters.updateACRFirewall }}
 
-    - stage: Deploy${{ app.containerAppName }}${{ environmentCode }}App
+    - stage: Deploy${{ app.containerAppName }}${{ environmentCode }}
       displayName: Deploy ${{ app.containerAppName }} ${{ environmentCode }}
       condition: and(succeeded(), eq(lower('${{ parameters.deployAction }}'), 'build-deploy'))
       dependsOn: Build${{ app.containerAppName }}${{ environmentCode }}App
@@ -48,7 +48,7 @@ stages:
             acrAppName: ${{ app.acrAppName }}
             port: ${{ app.port }}
   
-    - stage: Create${{ app.containerAppName }}${{ environmentCode }}App
+    - stage: Create${{ app.containerAppName }}${{ environmentCode }}
       displayName: Create ${{ app.containerAppName }} ${{ environmentCode }}
       condition: and(succeeded(), eq(lower('${{ parameters.deployAction }}'), 'create-build-deploy'))
       dependsOn: Build${{ app.containerAppName }}${{ environmentCode }}App

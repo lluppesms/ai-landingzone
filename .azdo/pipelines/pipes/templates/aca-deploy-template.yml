@@ -85,6 +85,19 @@ jobs:
             echo "##[endgroup]"
 
       # ----------------------------------------------------------------------------------------------------
+      # Log into ACR
+      # ----------------------------------------------------------------------------------------------------
+      - task: AzureCLI@2
+        displayName: 'ACR: Docker Login'
+        inputs:
+          AzureSubscription: $(serviceConnectionName)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            echo "Logging in to ${{ parameters.registryName }}.azurecr.io"
+            az acr login -n ${{ parameters.registryName }}
+
+      # ----------------------------------------------------------------------------------------------------
       # Deploy the container app image
       # ----------------------------------------------------------------------------------------------------
       - task: AzureCLI@2

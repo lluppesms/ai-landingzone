@@ -86,7 +86,6 @@ jobs:
             echo "userAssignedIdentityId=$userAssignedIdentityId"
             echo "acrName=$acrName"
             echo "containerAppEnvName=$containerAppEnvName"
-     #       echo "uiContainerAppName=$uiContainerAppName"
 
             echo "----------------------------------------"
             echo "##[group]Display All Environment Variables:"

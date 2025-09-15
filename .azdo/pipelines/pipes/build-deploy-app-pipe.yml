@@ -5,6 +5,8 @@ parameters:
   - name: environments
     type: object
     default: ['DEV']
+  - name: singleEnvironment
+    default: 'false'
   - name: apps
     type: object
     default: []
@@ -22,6 +24,7 @@ stages:
   - ${{ each app in parameters.apps }}:
     - stage: Build${{ app.containerAppName }}${{ environmentCode }}App
       displayName: Build ${{ app.containerAppName }} ${{ environmentCode }}
+      condition: or(eq(${{ parameters.singleEnvironment }}, 'true'), eq(upper('${{ environmentCode }}'), 'DEV'), and(eq(upper('${{ environmentCode }}'), 'QA'), succeeded('CreateInfraDEV')), and(eq(upper('${{ environmentCode }}'), 'PROD'), succeeded('CreateInfraQA')))
       jobs:
         - template: templates/aca-build-template.yml
           parameters:

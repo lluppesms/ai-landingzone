@@ -105,18 +105,18 @@ jobs:
           scriptType: bash
           scriptLocation: inlineScript
           inlineScript: |
-          az containerapp create \
-            --name $(caAppName) \
-            --resource-group $(resourceGroupName) \
-            --environment $(containerAppEnvName) \
-            --image $(containerRegistryUrl)/$(imageName)
-            --target-port $(port) \
-            --env-vars AppAgentEndpoint="$(APP_AGENT_ENDPOINT)" AppAgentId="$(APP_AGENT_ID)" \
-            --cpu 0.5 \
-            --memory 1.0 \
-            --min-replicas 1 \
-            --max-replicas 1 \
-            --ingress external \
-            --user-assigned "$(userAssignedIdentityId)" \
-            --registry-server "$(acrName).azurecr.io" \
-            --container-name app
+            az containerapp create \
+              --name $(caAppName) \
+              --resource-group $(resourceGroupName) \
+              --environment $(containerAppEnvName) \
+              --image $(containerRegistryUrl)/$(imageName) \
+              --target-port $(port) \
+              --env-vars AppAgentEndpoint="$(APP_AGENT_ENDPOINT)" AppAgentId="$(APP_AGENT_ID)" \
+              --cpu 0.5 \
+              --memory 1.0 \
+              --min-replicas 1 \
+              --max-replicas 1 \
+              --ingress external \
+              --user-assigned "$(userAssignedIdentityId)" \
+              --registry-server "$(acrName).azurecr.io" \
+              --container-name app

@@ -50,7 +50,7 @@ parameters:
   - name: projectNumber
     displayName: Project Number
     type: string
-    default: '001'
+    default: '00X'
   - name: runMSDevSecOpsScan
     displayName: Run MS DevSecOps Scan?
     type: boolean

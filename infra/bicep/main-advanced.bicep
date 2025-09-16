@@ -91,6 +91,8 @@ param vm_name string?
 // --------------------------------------------------------------------------------------------------------------
 // Container App Environment
 // --------------------------------------------------------------------------------------------------------------
+@description('Name of the Container Apps Environment workload profile to use for the app')
+param appContainerAppEnvironmentWorkloadProfileName string = containerAppEnvironmentWorkloadProfiles[0].name
 @description('Workload profiles for the Container Apps environment')
 param containerAppEnvironmentWorkloadProfiles array = [
   {
@@ -100,8 +102,6 @@ param containerAppEnvironmentWorkloadProfiles array = [
     maximumCount: 10
   }
 ]
-@description('Name of the Container Apps Environment workload profile to use for the app')
-param appContainerAppEnvironmentWorkloadProfileName string = containerAppEnvironmentWorkloadProfiles[0].name
 
 // --------------------------------------------------------------------------------------------------------------
 // Container App Entra Parameters
@@ -217,16 +217,11 @@ param deployUIApp bool = false
 @description('Should we deploy a Document Intelligence?')
 param deployDocumentIntelligence bool = false
 
-@description('Global Region where the resources will be deployed, e.g. NA (North America), EM (EMEA), AP (APAC), CH (China)')
-param regionCode string = 'NA'
+@description('Global Region where the resources will be deployed, e.g. AM (America), EM (EMEA), AP (APAC), CH (China)')
+param regionCode string = 'US'
 
 @description('Instance number for the application, e.g. 001, 002, etc. This is used to differentiate multiple instances of the same application in the same environment.')
 param instanceNumber string = '001' // used to differentiate multiple instances of the same application in the same environment
-
-// --------------------------------------------------------------------------------------------------------------
-// A variable masquerading as a parameter to allow for dynamic value assignment in Bicep
-// --------------------------------------------------------------------------------------------------------------
-param runDateTime string = utcNow()
 
 // --------------------------------------------------------------------------------------------------------------
 // Additional Tags that may be included or not
@@ -235,6 +230,11 @@ param businessOwnerTag string = 'UNKNOWN'
 param applicationOwnerTag string = 'UNKNOWN'
 param createdByTag string = 'UNKNOWN'
 param costCenterTag string = 'UNKNOWN'
+
+// --------------------------------------------------------------------------------------------------------------
+// A variable masquerading as a parameter to allow for dynamic value assignment in Bicep
+// --------------------------------------------------------------------------------------------------------------
+param runDateTime string = utcNow()
 
 // --------------------------------------------------------------------------------------------------------------
 // -- Variables -------------------------------------------------------------------------------------------------
@@ -661,8 +661,7 @@ module documentIntelligence './modules/ai/document-intelligence.bicep' = if (dep
 // AI Project
 var numberOfProjects int = 1 // This is the number of AI Projects to create
 // deploying AI projects in sequence
-
-var aiDependecies = {
+var aiDependencies = {
   aiSearch: {
     name: searchService.outputs.name
     resourceId: searchService.outputs.id
@@ -683,13 +682,13 @@ var aiDependecies = {
   }
 }
 
-module aiProject1 './modules/ai/ai-project-with-caphost.bicep' = {
-  name: 'aiProject${deploymentSuffix}-1'
+module aiProject './modules/ai/ai-project-with-caphost.bicep' = {
+  name: 'aiProject${deploymentSuffix}'
   params: {
     foundryName: aiFoundry.outputs.name
     location: location
     projectNo: 1
-    aiDependencies: aiDependecies
+    aiDependencies: aiDependencies
   }
 }
 
@@ -1040,21 +1039,14 @@ module managedEnvironment './modules/app/managedEnvironment.bicep' = if (deployC
   }
 }
 
-var apiTargetPort = 8000
-var apiSettings = [
-  {
-    name: 'API_URL'
-    value: deployCAEnvironment
-      ? 'https://${resourceNames.outputs.containerAppAPIName}.${managedEnvironment!.outputs.defaultDomain}/agent'
-      : ''
-  }
+var containerAppSettings = [
   { name: 'API_KEY', secretRef: 'apikey' }
   { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: logAnalytics.outputs.appInsightsConnectionString }
 
   { name: 'SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS', value: 'true' }
   { name: 'SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS_SENSITIVE', value: 'true' }
 
-  { name: 'AZURE_AI_AGENT_ENDPOINT', value: aiProject1.outputs.foundry_connection_string }
+  { name: 'AZURE_AI_AGENT_ENDPOINT', value: aiProject.outputs.foundry_connection_string }
   { name: 'AZURE_AI_AGENT_MODEL_DEPLOYMENT_NAME', value: gpt41_DeploymentName }
 
   { name: 'COSMOS_DB_ENDPOINT', value: cosmos.outputs.endpoint }
@@ -1068,6 +1060,15 @@ var apiSettings = [
 
   { name: 'MOCK_USER_UPN', value: string(mockUserUpn) }
 ]
+var apiUrlSettings = deployAPIApp ? [ 
+  {
+    name: 'API_URL'
+    value: deployCAEnvironment
+      ? 'https://${resourceNames.outputs.containerAppAPIName}.${managedEnvironment!.outputs.defaultDomain}/agent'
+      : ''
+  }
+] : []
+
 var apimSettings = deployAPIM
   ? [
   { name: 'APIM_BASE_URL', value: apimBaseUrl }
@@ -1107,6 +1108,7 @@ var entraSecretSet = deployEntraClientSecrets
     }
   : {}
 
+var apiTargetPort = 8000
 module containerAppAPI './modules/app/containerappstub.bicep' = if (deployAPIApp) {
   name: 'ca-api-stub${deploymentSuffix}'
   params: {
@@ -1122,7 +1124,7 @@ module containerAppAPI './modules/app/containerappstub.bicep' = if (deployAPIApp
     
     tags: union(tags, { 'azd-service-name': 'api' })
     secrets: union(baseSecretSet, apimSecretSet, entraSecretSet) 
-    env: union(apiSettings, apimSettings, entraSecuritySettings)
+    env: union(containerAppSettings, apiUrlSettings, apimSettings, entraSecuritySettings)
   }
   dependsOn: createDnsZones && deployContainerRegistry
     ? [allDnsZones, containerRegistry, apim]
@@ -1132,15 +1134,6 @@ module containerAppAPI './modules/app/containerappstub.bicep' = if (deployAPIApp
 }
 
 var UITargetPort = 8001
-var UISettings = union(apiSettings, [
-  {
-    name: 'API_URL'
-    value: deployCAEnvironment
-      ? 'https://${resourceNames.outputs.containerAppAPIName}.${managedEnvironment!.outputs.defaultDomain}/agent'
-      : ''
-  }
-])
-
 module containerAppUI './modules/app/containerappstub.bicep' = if (deployUIApp) {
   name: 'ca-UI-stub${deploymentSuffix}'
   params: {
@@ -1155,7 +1148,7 @@ module containerAppUI './modules/app/containerappstub.bicep' = if (deployUIApp) 
     imageName: uiImageName
     tags: union(tags, { 'azd-service-name': 'UI' })
     secrets: union(baseSecretSet, apimSecretSet, entraSecretSet)
-    env: union(UISettings, apimSettings, entraSecuritySettings)
+    env: union(containerAppSettings, apiUrlSettings, apimSettings, entraSecuritySettings)
   }
   dependsOn: createDnsZones && deployContainerRegistry
     ? [allDnsZones, containerRegistry, apim]
@@ -1171,8 +1164,8 @@ output SUBSCRIPTION_ID string = subscription().subscriptionId
 output ACR_NAME string = deployContainerRegistry ? containerRegistry!.outputs.name : ''
 output ACR_URL string = deployContainerRegistry ? containerRegistry!.outputs.loginServer : ''
 output AI_ENDPOINT string = aiFoundry.outputs.endpoint
-output AI_FOUNDRY_PROJECT_ID string = aiProject1.outputs.projectId
-output AI_FOUNDRY_PROJECT_NAME string = aiProject1.outputs.projectName
+output AI_FOUNDRY_PROJECT_ID string = aiProject.outputs.projectId
+output AI_FOUNDRY_PROJECT_NAME string = aiProject.outputs.projectName
 output AI_PROJECT_NAME string = resourceNames.outputs.aiHubProjectName
 output AI_SEARCH_ENDPOINT string = searchService.outputs.endpoint
 output API_CONTAINER_APP_FQDN string = deployAPIApp ? containerAppAPI!.outputs.fqdn : ''

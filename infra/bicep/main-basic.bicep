@@ -150,7 +150,6 @@ param deployUIApp bool = false
 param deployDocumentIntelligence bool = false
 
 @description('Global Region where the resources will be deployed, e.g. AM (America), EM (EMEA), AP (APAC), CH (China)')
-//@allowed(['AM', 'EM', 'AP', 'CH', 'US'])
 param regionCode string = 'US'
 
 @description('Instance number for the application, e.g. 001, 002, etc. This is used to differentiate multiple instances of the same application in the same environment.')
@@ -515,34 +514,37 @@ module documentIntelligence './modules/ai/document-intelligence.bicep' = if (dep
 // Imported from https://github.com/adamhockemeyer/ai-agent-experience
 // --------------------------------------------------------------------------------------------------------------
 // AI Project
+var numberOfProjects int = 1 // This is the number of AI Projects to create
+// deploying AI projects in sequence
+var aiDependencies = {
+  aiSearch: {
+    name: searchService.outputs.name
+    resourceId: searchService.outputs.id
+    resourceGroupName: searchService.outputs.resourceGroupName
+    subscriptionId: searchService.outputs.subscriptionId
+  }
+  azureStorage: {
+    name: storage.outputs.name
+    resourceId: storage.outputs.id
+    resourceGroupName: storage.outputs.resourceGroupName
+    subscriptionId: storage.outputs.subscriptionId
+  } 
+  cosmosDB: {
+    name: cosmos.outputs.name
+    resourceId: cosmos.outputs.id
+    resourceGroupName: cosmos.outputs.resourceGroupName
+    subscriptionId: cosmos.outputs.subscriptionId
+  }
+}
+
 module aiProject './modules/ai/ai-project-with-caphost.bicep' = {
   name: 'aiProject${deploymentSuffix}'
   params: {
-    location: location
     foundryName: aiFoundry.outputs.name
-    createHubCapabilityHost: true // required for non-vnet injected
-    projectNo: 1 // This is the number of AI Project
-    // Connect to existing resources
-    aiDependencies: {
-      aiSearch: {
-        name: searchService.outputs.name
-        resourceId: searchService.outputs.id
-        resourceGroupName: resourceGroup().name
-        subscriptionId: subscription().subscriptionId
-      }
-      cosmosDB: {
-        name: cosmos.outputs.name
-        resourceId: cosmos.outputs.id
-        resourceGroupName: resourceGroup().name
-        subscriptionId: subscription().subscriptionId
-      }
-      azureStorage: {
-        name: storage.outputs.name
-        resourceId: storage.outputs.id
-        resourceGroupName: resourceGroup().name
-        subscriptionId: subscription().subscriptionId
-  }
-}
+    location: location
+    projectNo: 1
+    createHubCapabilityHost: true   // this is required for non-vnet injected
+    aiDependencies: aiDependencies
   }
 }
 
@@ -587,14 +589,7 @@ module managedEnvironment './modules/app/managedEnvironment.bicep' = if (deployC
   }
 }
 
-var apiTargetPort = 8000
-var apiSettings = [
-  {
-    name: 'API_URL'
-    value: deployCAEnvironment
-      ? 'https://${resourceNames.outputs.containerAppAPIName}.${managedEnvironment!.outputs.defaultDomain}/agent'
-      : ''
-  }
+var containerAppSettings = [
   { name: 'API_KEY', secretRef: 'apikey' }
   { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: logAnalytics.outputs.appInsightsConnectionString }
 
@@ -615,6 +610,15 @@ var apiSettings = [
 
   { name: 'MOCK_USER_UPN', value: string(mockUserUpn) }
 ]
+var apiUrlSettings = deployAPIApp ? [ 
+  {
+    name: 'API_URL'
+    value: deployCAEnvironment
+      ? 'https://${resourceNames.outputs.containerAppAPIName}.${managedEnvironment!.outputs.defaultDomain}/agent'
+      : ''
+  }
+] : []
+
 var apimSettings = deployAPIM
   ? [
   { name: 'APIM_BASE_URL', value: apimBaseUrl }
@@ -654,6 +658,7 @@ var entraSecretSet = deployEntraClientSecrets
     }
   : {}
 
+var apiTargetPort = 8000
 module containerAppAPI './modules/app/containerappstub.bicep' = if (deployAPIApp) {
   name: 'ca-api-stub${deploymentSuffix}'
   params: {
@@ -669,21 +674,12 @@ module containerAppAPI './modules/app/containerappstub.bicep' = if (deployAPIApp
 
     tags: union(tags, { 'azd-service-name': 'api' })
     secrets: union(baseSecretSet, apimSecretSet, entraSecretSet) 
-    env: union(apiSettings, apimSettings, entraSecuritySettings)
+    env: union(containerAppSettings, apiUrlSettings, apimSettings, entraSecuritySettings)
   }
   dependsOn: deployAPIM ? [containerRegistry, apim] : [containerRegistry]
 }
 
 var UITargetPort = 8001
-var UISettings = union(apiSettings, [
-  {
-    name: 'API_URL'
-    value: deployCAEnvironment
-      ? 'https://${resourceNames.outputs.containerAppAPIName}.${managedEnvironment!.outputs.defaultDomain}/agent'
-      : ''
-  }
-])
-
 module containerAppUI './modules/app/containerappstub.bicep' = if (deployUIApp) {
   name: 'ca-UI-stub${deploymentSuffix}'
   params: {
@@ -698,7 +694,7 @@ module containerAppUI './modules/app/containerappstub.bicep' = if (deployUIApp) 
     imageName: uiImageName
     tags: union(tags, { 'azd-service-name': 'UI' })
     secrets: union(baseSecretSet, apimSecretSet, entraSecretSet)
-    env: union(UISettings, apimSettings, entraSecuritySettings)
+    env: union(containerAppSettings, apiUrlSettings, apimSettings, entraSecuritySettings)
   }
   dependsOn: deployAPIM ? [containerRegistry, apim] : [containerRegistry]
 }

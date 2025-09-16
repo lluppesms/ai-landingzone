@@ -450,7 +450,6 @@ module keyVault './modules/security/keyvault.bicep' = {
     privateEndpointSubnetId: vnet.outputs.subnetPeResourceID
   }
 }
-
 module keyVaultSecretList './modules/security/keyvault-list-secret-names.bicep' = if (deduplicateKVSecrets) {
   name: 'keyVault-Secret-List-Names${deploymentSuffix}'
   params: {
@@ -480,6 +479,24 @@ module apimSecret './modules/security/keyvault-secret.bicep' = if (deployAPIM) {
     existingSecretNames: deduplicateKVSecrets ? keyVaultSecretList!.outputs.secretNameList : ''
   }
   dependsOn: [apim]
+}
+module appiSecret './modules/security/keyvault-secret.bicep' = if (deployAPIM) {
+  name: 'secret-appi${deploymentSuffix}'
+  params: {
+    keyVaultName: keyVault.outputs.name
+    secretName: 'appInsightsConnectingString'
+    secretValue: logAnalytics.outputs.appInsightsConnectionString
+    existingSecretNames: deduplicateKVSecrets ? keyVaultSecretList!.outputs.secretNameList : ''
+  }
+}
+module userIdSecret './modules/security/keyvault-secret.bicep' = if (deployAPIM) {
+  name: 'secret-userId${deploymentSuffix}'
+  params: {
+    keyVaultName: keyVault.outputs.name
+    secretName: 'managed-identity-id'
+    secretValue: identity.outputs.managedIdentityId
+    existingSecretNames: deduplicateKVSecrets ? keyVaultSecretList!.outputs.secretNameList : ''
+  }
 }
 
 module entraClientIdSecret './modules/security/keyvault-secret.bicep' = if (deployEntraClientSecrets) {
@@ -1043,22 +1060,15 @@ var containerAppSettings = [
   { name: 'API_KEY', secretRef: 'apikey' }
   { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: logAnalytics.outputs.appInsightsConnectionString }
 
-  { name: 'SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS', value: 'true' }
-  { name: 'SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS_SENSITIVE', value: 'true' }
-
-  { name: 'AZURE_AI_AGENT_ENDPOINT', value: aiProject.outputs.foundry_connection_string }
-  { name: 'AZURE_AI_AGENT_MODEL_DEPLOYMENT_NAME', value: gpt41_DeploymentName }
-
-  { name: 'COSMOS_DB_ENDPOINT', value: cosmos.outputs.endpoint }
-  { name: 'COSMOS_DB_API_SESSIONS_DATABASE_NAME', value: sessionsDatabaseName }
-  { name: 'COSMOS_DB_API_SESSIONS_CONTAINER_NAME', value: sessionsContainerArray[0].name }
+  { name: 'AppAgentEndpoint', value: aiProject.outputs.aiConnectionUrl }
+  { name: 'AppAgentId', value: 'TBD' }
 
   { name: 'AZURE_CLIENT_ID', value: identity.outputs.managedIdentityClientId }
-
   { name: 'AZURE_SDK_TRACING_IMPLEMENTATION', value: 'opentelemetry' }
   { name: 'AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED', value: 'true' }
 
-  { name: 'MOCK_USER_UPN', value: string(mockUserUpn) }
+  { name: 'SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS', value: 'true' }
+  { name: 'SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS_SENSITIVE', value: 'true' }
 ]
 var apiUrlSettings = deployAPIApp ? [ 
   {
@@ -1069,30 +1079,28 @@ var apiUrlSettings = deployAPIApp ? [
   }
 ] : []
 
-var apimSettings = deployAPIM
-  ? [
+var cosmosSettings = [
+  { name: 'COSMOS_DB_ENDPOINT', value: cosmos.outputs.endpoint }
+  { name: 'COSMOS_DB_API_SESSIONS_DATABASE_NAME', value: sessionsDatabaseName }
+  { name: 'COSMOS_DB_API_SESSIONS_CONTAINER_NAME', value: sessionsContainerArray[0].name }
+  ]
+var apimSettings = deployAPIM ? [
   { name: 'APIM_BASE_URL', value: apimBaseUrl }
   { name: 'APIM_ACCESS_URL', value: apimAccessUrl }
   { name: 'APIM_KEY', secretRef: 'apimkey' }
   { name: 'API_MANAGEMENT_NAME', value: apim!.outputs.name }
   { name: 'API_MANAGEMENT_ID', value: apim!.outputs.id }
   { name: 'API_MANAGEMENT_ENDPOINT', value: apim!.outputs.gatewayUrl }
-    ]
-  : []
+  ] : []
 var entraSecuritySettings = deployEntraClientSecrets
   ? [
   { name: 'ENTRA_TENANT_ID', value: entraTenantId }
   { name: 'ENTRA_API_AUDIENCE', value: entraApiAudience }
   { name: 'ENTRA_SCOPES', value: entraScopes }
-      {
-        name: 'ENTRA_REDIRECT_URI'
-        value: entraRedirectUri ?? 'https://${resourceNames.outputs.containerAppUIName}.${managedEnvironment!.outputs.defaultDomain}/auth/callback'
-      }
+  { name: 'ENTRA_REDIRECT_URI', value: entraRedirectUri ?? 'https://${resourceNames.outputs.containerAppUIName}.${managedEnvironment!.outputs.defaultDomain}/auth/callback' }
   { name: 'ENTRA_CLIENT_ID', secretRef: 'entraclientid' }
   { name: 'ENTRA_CLIENT_SECRET', secretRef: 'entraclientsecret' }
-    ]
-  : []
-
+  ] : []
 var baseSecretSet = {
   apikey: apiKeySecret.outputs.secretUri
 }

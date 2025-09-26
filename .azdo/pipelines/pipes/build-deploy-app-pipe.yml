@@ -50,21 +50,21 @@ stages:
         - ${{ if eq(upper(environmentCode), 'DV') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
-              action: 'add'
+              action: 'add-login'
               environmentCode: ${{ environmentCode }}
               serviceConnectionName: $(serviceConnectionDV)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'TS') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
-              action: 'add'
+              action: 'add-login'
               environmentCode: ${{ environmentCode }}
               serviceConnectionName: $(serviceConnectionTS)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'PD') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
-              action: 'add'
+              action: 'add-login'
               environmentCode: ${{ environmentCode }}
               serviceConnectionName: $(serviceConnectionPD)
               updateFirewall: ${{ parameters.updateFirewall }}

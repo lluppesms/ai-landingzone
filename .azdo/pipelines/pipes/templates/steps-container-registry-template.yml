@@ -92,7 +92,10 @@ steps:
         echo "serviceConnectionName=${{ parameters.serviceConnectionName }}"
         echo "action=${{ parameters.action }}"
         echo "environmentCode=${{ parameters.environmentCode }}"
-        
+        echo "imageName=${{ parameters.imageName }}"
+        echo "imageNameLatest=${{ parameters.imageNameLatest }}"
+        echo "updateFirewall=${{ parameters.updateFirewall }}"
+
         echo "parameters.registryName=${{ parameters.registryName }}"
         echo "containerRegistryName=$(containerRegistryName)"
         

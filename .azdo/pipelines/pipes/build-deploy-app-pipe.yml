@@ -35,23 +35,33 @@ stages:
             runGHASScan: ${{ parameters.runGHASScan }}
 
 # ----------------------------------------------------------------------------------------------------
-# Add Firewall rule to ACR for the build agent IP address
-# ----------------------------------------------------------------------------------------------------
-- template: steps-container-registry-template.yml
-  parameters:
-    action: 'add'
-    serviceConnectionName: $(serviceConnectionName)
-    registryName: $(containerRegistryName)
-    registryResourceGroup: $(resourceGroupName)
-    imageName: $(imageName)
-    imageNameLatest: $(imageNameBranch)
-    updateFirewall: ${{ parameters.updateFirewall }}
-    agentIpAddress: $(agentIpAddress)
-
-
-# ----------------------------------------------------------------------------------------------------
 - ${{ each environmentCode in parameters.environments }}:
   - ${{ each app in parameters.apps }}:
+
+    # ----------------------------------------------------------------------------------------------------
+    # Add Firewall rule to ACR for the build agent IP address
+    # ----------------------------------------------------------------------------------------------------
+    - ${{ if eq(upper(environmentCode), 'DV') }}:
+      - template: steps-container-registry-template.yml
+        parameters:
+          action: 'add'
+          serviceConnectionName: $(serviceConnectionNameDV)
+          registryResourceGroup: $(resourceGroupName)
+          updateFirewall: ${{ parameters.updateFirewall }}
+    - ${{ if eq(upper(environmentCode), 'TS') }}:
+      - template: steps-container-registry-template.yml
+        parameters:
+          action: 'add'
+          serviceConnectionName: $(serviceConnectionNameTS)
+          registryResourceGroup: $(resourceGroupName)
+          updateFirewall: ${{ parameters.updateFirewall }}
+    - ${{ if eq(upper(environmentCode), 'PD') }}:
+      - template: steps-container-registry-template.yml
+        parameters:
+          action: 'add'
+          serviceConnectionName: $(serviceConnectionNamePD)
+          registryResourceGroup: $(resourceGroupName)
+          updateFirewall: ${{ parameters.updateFirewall }}
 
     # -- BUILD STAGE - Based on environment ----------------------------------------------------------
     - stage: Build${{ app.containerAppName }}${{ environmentCode }}
@@ -155,16 +165,27 @@ stages:
               updateFirewall: ${{ parameters.updateACRFirewall }}
 
 
-# ----------------------------------------------------------------------------------------------------
-# Remove Firewall rule to ACR for the build agent IP address and login
-# ----------------------------------------------------------------------------------------------------
-- template: steps-container-registry-template.yml
-  parameters:
-    action: 'remove'
-    serviceConnectionName: $(serviceConnectionName)
-    registryName: $(containerRegistryName)
-    registryResourceGroup: $(resourceGroupName)
-    imageName: $(imageName)
-    imageNameLatest: $(imageNameBranch)
-    updateFirewall: ${{ parameters.updateFirewall }}
-    agentIpAddress: $(agentIpAddress)
+    # ----------------------------------------------------------------------------------------------------
+    # Remove Firewall rule to ACR for the build agent IP address and login
+    # ----------------------------------------------------------------------------------------------------
+    - ${{ if eq(upper(environmentCode), 'DV') }}:
+      - template: steps-container-registry-template.yml
+        parameters:
+          action: 'remove'
+          serviceConnectionName: $(serviceConnectionDV)
+          registryResourceGroup: $(resourceGroupName)
+          updateFirewall: ${{ parameters.updateFirewall }}
+    - ${{ if eq(upper(environmentCode), 'TS') }}:
+      - template: steps-container-registry-template.yml
+        parameters:
+          action: 'remove'
+          serviceConnectionName: $(serviceConnectionTS)
+          registryResourceGroup: $(resourceGroupName)
+          updateFirewall: ${{ parameters.updateFirewall }}
+    - ${{ if eq(upper(environmentCode), 'PD') }}:
+      - template: steps-container-registry-template.yml
+        parameters:
+          action: 'remove'
+          serviceConnectionName: $(serviceConnectionPD)
+          registryResourceGroup: $(resourceGroupName)
+          updateFirewall: ${{ parameters.updateFirewall }}

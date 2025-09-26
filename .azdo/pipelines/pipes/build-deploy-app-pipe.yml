@@ -46,26 +46,24 @@ stages:
       jobs:
       - job: FWAdd${{ app.containerAppName }}${{ environmentCode }}Job
         steps:
+        # because this is passing a service connection name, that has to be resolved at compile time, hence the IF/SWITCH
         - ${{ if eq(upper(environmentCode), 'DV') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'add'
               serviceConnectionName: $(serviceConnectionDV)
-              registryResourceGroup: $(resourceGroupName)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'TS') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'add'
               serviceConnectionName: $(serviceConnectionTS)
-              registryResourceGroup: $(resourceGroupName)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'PD') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'add'
               serviceConnectionName: $(serviceConnectionPD)
-              registryResourceGroup: $(resourceGroupName)
               updateFirewall: ${{ parameters.updateFirewall }}
 
     # -- BUILD STAGE - Based on environment ----------------------------------------------------------
@@ -178,24 +176,22 @@ stages:
       jobs:
       - job: FWRemove${{ app.containerAppName }}${{ environmentCode }}Job
         steps:
+        # because this is passing a service connection name, that has to be resolved at compile time, hence the IF/SWITCH
         - ${{ if eq(upper(environmentCode), 'DV') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'remove'
               serviceConnectionName: $(serviceConnectionDV)
-              registryResourceGroup: $(resourceGroupName)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'TS') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'remove'
               serviceConnectionName: $(serviceConnectionTS)
-              registryResourceGroup: $(resourceGroupName)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'PD') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'remove'
               serviceConnectionName: $(serviceConnectionPD)
-              registryResourceGroup: $(resourceGroupName)
               updateFirewall: ${{ parameters.updateFirewall }}

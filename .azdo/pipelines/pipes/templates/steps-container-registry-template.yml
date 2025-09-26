@@ -28,7 +28,6 @@ parameters:
     default: ''
   - name: updateFirewall
     default: true
-    type: boolean
   - name: agentIpAddress
     default: ''
 

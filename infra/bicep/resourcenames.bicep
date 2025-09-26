@@ -122,14 +122,14 @@ output bastion object = {
   pip_name:                                  toLower('${resourceAbbreviations.networkPublicIPAddresses}${sanitizedAppName}-${resourceAbbreviations.bastionPip}-${sanitizedEnvironment}${dashInstance}')
 }
 output project_vm object = {
-  vm_name:                                   toLower('${resourceAbbreviations.computeVirtualMachines}oaz${sanitizedAppName}${sanitizedEnvironment}${projectNumber}')
-  vm_name_15:                                take(toLower('${resourceAbbreviations.computeVirtualMachines}oaz${sanitizedAppName}${sanitizedEnvironment}${projectNumber}'),15)
-  vm_nic_name:                               toLower('${resourceAbbreviations.networkNetworkInterfaces}${sanitizedAppName}-${sanitizedEnvironment}${dashProject}')
-  vm_pip_name:                               toLower('${resourceAbbreviations.networkPublicIPAddresses}${sanitizedAppName}-${sanitizedEnvironment}${dashProject}')
-  vm_os_disk_name:                           toLower('${resourceAbbreviations.computeDisks}-${sanitizedAppName}-${sanitizedEnvironment}${dashProject}')
-  vm_nsg_name:                               toLower('${resourceAbbreviations.networkNetworkSecurityGroups}-${sanitizedAppName}-${sanitizedEnvironment}${dashProject}')
-  bastion_host_name:                         toLower('${resourceAbbreviations.networkBastionHosts}${sanitizedAppName}-${sanitizedEnvironment}${dashProject}')
-  bastion_pip_name:                          toLower('${resourceAbbreviations.networkPublicIPAddresses}${sanitizedAppName}-${resourceAbbreviations.bastionPip}-${sanitizedEnvironment}${dashProject}')
+  vm_name:                                   toLower('${resourceAbbreviations.computeVirtualMachines}oaz${sanitizedAppName}${sanitizedEnvironment}${instance}${projectNumber}')
+  vm_name_15:                                take(toLower('${resourceAbbreviations.computeVirtualMachines}oaz${sanitizedAppName}${sanitizedEnvironment}${instance}${projectNumber}'),15)
+  vm_nic_name:                               toLower('${resourceAbbreviations.networkNetworkInterfaces}${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}${dashProject}')
+  vm_pip_name:                               toLower('${resourceAbbreviations.networkPublicIPAddresses}${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}${dashProject}')
+  vm_os_disk_name:                           toLower('${resourceAbbreviations.computeDisks}-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}${dashProject}')
+  vm_nsg_name:                               toLower('${resourceAbbreviations.networkNetworkSecurityGroups}-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}${dashProject}')
+  bastion_host_name:                         toLower('${resourceAbbreviations.networkBastionHosts}${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}${dashProject}')
+  bastion_pip_name:                          toLower('${resourceAbbreviations.networkPublicIPAddresses}${sanitizedAppName}-${resourceAbbreviations.bastionPip}-${sanitizedEnvironment}${dashInstance}${dashInstance}${dashProject}')
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------

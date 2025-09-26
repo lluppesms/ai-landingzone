@@ -95,7 +95,7 @@ output storageAccountName string           = take('${resourceAbbreviations.stora
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 output vnet_Name string                    = toLower('${resourceAbbreviations.networkVirtualNetworks}-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}')
 output root_vnet_Name string               = toLower('${resourceAbbreviations.networkVirtualNetworks}-${sanitizedRootApplication}-${sanitizedEnvironment}${dashInstance}')
-output vnetNsgName string                  = toLower('${resourceAbbreviations.networkNetworkSecurityGroups}-${sanitizedAppName}-${sanitizedEnvironment}-001')
+output vnetNsgName string                  = toLower('${resourceAbbreviations.networkNetworkSecurityGroups}-${sanitizedAppName}-${sanitizedEnvironment}-1')
                                
 output subnet object = {
   appGwName:                                 'sn-AppGw'

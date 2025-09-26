@@ -43,6 +43,8 @@ stages:
     # ----------------------------------------------------------------------------------------------------
     - stage: FWAdd${{ app.containerAppName }}${{ environmentCode }}
       jobs:
+      - job: FWAdd${{ app.containerAppName }}${{ environmentCode }}Job
+        steps:
         - ${{ if eq(upper(environmentCode), 'DV') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
@@ -170,8 +172,10 @@ stages:
     # ----------------------------------------------------------------------------------------------------
     # Remove Firewall rule to ACR for the build agent IP address and login
     # ----------------------------------------------------------------------------------------------------
-    - stage: FWAdd${{ app.containerAppName }}${{ environmentCode }}
+    - stage: FWRemove${{ app.containerAppName }}${{ environmentCode }}
       jobs:
+      - job: FWRemove${{ app.containerAppName }}${{ environmentCode }}Job
+        steps:
         - ${{ if eq(upper(environmentCode), 'DV') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:

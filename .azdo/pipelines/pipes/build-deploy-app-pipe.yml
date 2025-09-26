@@ -51,18 +51,21 @@ stages:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'add'
+              environmentCode: ${{ environmentCode }}
               serviceConnectionName: $(serviceConnectionDV)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'TS') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'add'
+              environmentCode: ${{ environmentCode }}
               serviceConnectionName: $(serviceConnectionTS)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'PD') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'add'
+              environmentCode: ${{ environmentCode }}
               serviceConnectionName: $(serviceConnectionPD)
               updateFirewall: ${{ parameters.updateFirewall }}
 
@@ -181,17 +184,20 @@ stages:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'remove'
+              environmentCode: ${{ environmentCode }}
               serviceConnectionName: $(serviceConnectionDV)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'TS') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'remove'
+              environmentCode: ${{ environmentCode }}
               serviceConnectionName: $(serviceConnectionTS)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'PD') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'remove'
+              environmentCode: ${{ environmentCode }}
               serviceConnectionName: $(serviceConnectionPD)
               updateFirewall: ${{ parameters.updateFirewall }}

@@ -54,32 +54,33 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        if [ -z "${{ parameters.registryName }}" ]; then
-        $containerRegistryName="cr$($appNameNoDashesLower)$($environmentCodeLower)$(INSTANCE_NUMBER)"
-        else
-        $containerRegistryName="$(echo "${{ parameters.registryName }}")"
-        fi
+        if ([string]::IsNullOrEmpty("${{ parameters.registryName }}")) {
+          $containerRegistryName="cr$($appNameNoDashesLower)$($environmentCodeLower)$(INSTANCE_NUMBER)"
+        } else {
+          $containerRegistryName="${{ parameters.registryName }}"
+        }
         echo "##vso[task.setvariable variable=containerRegistryName]$containerRegistryName"
 
-        if [ -z "${{ parameters.agentIpAddress }}" ]; then
-        $ipAddress=$(Invoke-WebRequest -Uri "https://api.ipify.org").Content
-        else
-        $ipAddress="$(echo "${{ parameters.agentIpAddress }}")"
-        fi
+        if ([string]::IsNullOrEmpty("${{ parameters.agentIpAddress }}")) {
+          $ipAddress=$(Invoke-WebRequest -Uri "https://api.ipify.org").Content
+        } else {
+          $ipAddress="${{ parameters.agentIpAddress }}"
+        }
         echo "##vso[task.setvariable variable=ipAddress]$ipAddress"
 
-  - task: CmdLine@2
+  - task: PowerShell@2
     displayName: Display Variables
+    continueOnError: true
     inputs:
+      targetType: 'inline'
       script: |
         echo "parameters.registryName=${{ parameters.registryName }}"
         echo "containerRegistryName=$containerRegistryName"
+        echo "agentIpAddress=${{ parameters.agentIpAddress }}"
+        echo "ipAddress=$ipAddress"
         echo "serviceConnectionName=${{ parameters.serviceConnectionName }}"
         echo "registryResourceGroup=${{ parameters.registryResourceGroup }}"
         echo "action=${{ parameters.action }}"
-        echo "agentIpAddress=${{ parameters.agentIpAddress }}"
-        echo "ipAddress=$ipAddress"
-    continueOnError: true
 
   - ${{ if and(contains(lower(parameters.action), 'add'), parameters.updateFirewall) }}:
     - task: AzureCLI@2

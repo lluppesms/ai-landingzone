@@ -91,7 +91,8 @@ steps:
       script: |
         echo "serviceConnectionName=${{ parameters.serviceConnectionName }}"
         echo "action=${{ parameters.action }}"
-
+        echo "environmentCode=${{ parameters.environmentCode }}"
+        
         echo "parameters.registryName=${{ parameters.registryName }}"
         echo "containerRegistryName=$(containerRegistryName)"
         

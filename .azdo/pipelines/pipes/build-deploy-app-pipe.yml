@@ -22,6 +22,9 @@ parameters:
   - name: runMSDevSecOpsScan
     default: 'false'
 
+variables:
+  - template: vars/var-service-connections.yml
+
 # ----------------------------------------------------------------------------------------------------
 stages:
 - ${{ if or(eq(lower(parameters.runMSDevSecOpsScan), 'true'), eq(lower(parameters.runGHASScan), 'true')) }}:

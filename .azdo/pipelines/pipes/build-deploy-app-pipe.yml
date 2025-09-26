@@ -22,9 +22,6 @@ parameters:
   - name: runMSDevSecOpsScan
     default: 'false'
 
-variables:
-  - template: vars/var-service-connections.yml
-
 # ----------------------------------------------------------------------------------------------------
 stages:
 - ${{ if or(eq(lower(parameters.runMSDevSecOpsScan), 'true'), eq(lower(parameters.runGHASScan), 'true')) }}:
@@ -49,7 +46,7 @@ stages:
         - ${{ if eq(upper(environmentCode), 'DV') }}:
           - template: templates/aca-build-template.yml
             parameters:
-              serviceConnectionName: $(serviceConnectionNameDV)
+              serviceConnectionName: $(serviceConnectionDV)
               environmentCode: ${{ environmentCode }}
               acrAppName: ${{ app.acrAppName }}
               projectFolderName: ${{ app.projectFolderName }}
@@ -58,7 +55,7 @@ stages:
         - ${{ if eq(upper(environmentCode), 'TS') }}:
           - template: templates/aca-build-template.yml
             parameters:
-              serviceConnectionName: $(serviceConnectionNameTS)
+              serviceConnectionName: $(serviceConnectionTS)
               environmentCode: ${{ environmentCode }}
               acrAppName: ${{ app.acrAppName }}
               projectFolderName: ${{ app.projectFolderName }}
@@ -67,7 +64,7 @@ stages:
         - ${{ if eq(upper(environmentCode), 'PD') }}:
           - template: templates/aca-build-template.yml
             parameters:
-              serviceConnectionName: $(serviceConnectionNamePD)
+              serviceConnectionName: $(serviceConnectionPD)
               environmentCode: ${{ environmentCode }}
               acrAppName: ${{ app.acrAppName }}
               projectFolderName: ${{ app.projectFolderName }}
@@ -83,7 +80,7 @@ stages:
         - ${{ if eq(upper(environmentCode), 'DV') }}:
           - template: templates/aca-deploy-template.yml
             parameters:
-              serviceConnectionName: $(serviceConnectionNameDV)
+              serviceConnectionName: $(serviceConnectionDV)
               environmentCode: ${{ environmentCode }}
               containerAppName: ${{ app.containerAppName }}
               acrAppName: ${{ app.acrAppName }}
@@ -92,7 +89,7 @@ stages:
         - ${{ if eq(upper(environmentCode), 'TS') }}:
           - template: templates/aca-deploy-template.yml
             parameters:
-              serviceConnectionName: $(serviceConnectionNameTS)
+              serviceConnectionName: $(serviceConnectionTS)
               environmentCode: ${{ environmentCode }}
               containerAppName: ${{ app.containerAppName }}
               acrAppName: ${{ app.acrAppName }}
@@ -101,7 +98,7 @@ stages:
         - ${{ if eq(upper(environmentCode), 'PD') }}:
           - template: templates/aca-deploy-template.yml
             parameters:
-              serviceConnectionName: $(serviceConnectionNamePD)
+              serviceConnectionName: $(serviceConnectionPD)
               environmentCode: ${{ environmentCode }}
               containerAppName: ${{ app.containerAppName }}
               acrAppName: ${{ app.acrAppName }}
@@ -117,7 +114,7 @@ stages:
         - ${{ if eq(upper(environmentCode), 'DV') }}:
           - template: templates/aca-create-template.yml
             parameters:
-              serviceConnectionName: $(serviceConnectionNameDV)
+              serviceConnectionName: $(serviceConnectionDV)
               environmentCode: ${{ environmentCode }}
               containerAppName: ${{ app.containerAppName }}
               acrAppName: ${{ app.acrAppName }}
@@ -126,7 +123,7 @@ stages:
         - ${{ if eq(upper(environmentCode), 'TS') }}:
           - template: templates/aca-create-template.yml
             parameters:
-              serviceConnectionName: $(serviceConnectionNameTS)
+              serviceConnectionName: $(serviceConnectionTS)
               environmentCode: ${{ environmentCode }}
               containerAppName: ${{ app.containerAppName }}
               acrAppName: ${{ app.acrAppName }}
@@ -135,7 +132,7 @@ stages:
         - ${{ if eq(upper(environmentCode), 'PD') }}:
           - template: templates/aca-create-template.yml
             parameters:
-              serviceConnectionName: $(serviceConnectionNamePD)
+              serviceConnectionName: $(serviceConnectionPD)
               environmentCode: ${{ environmentCode }}
               containerAppName: ${{ app.containerAppName }}
               acrAppName: ${{ app.acrAppName }}

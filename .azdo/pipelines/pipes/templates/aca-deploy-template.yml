@@ -149,4 +149,3 @@ jobs:
           imageNameLatest: $(imageNameBranch)
           updateFirewall: ${{ parameters.updateFirewall }}
           agentIpAddress: $(agentIpAddress)
-

@@ -16,6 +16,8 @@
 parameters:
   - name: action
     default: 'add' # 'add' or 'add-login' or 'push' or 'add-login-push-remove' or 'remove'
+  - name: environmentCode
+    default: ''
   - name: serviceConnectionName
     default: ''
   - name: registryName
@@ -55,7 +57,9 @@ steps:
       targetType: 'inline'
       script: |
         if ([string]::IsNullOrEmpty("${{ parameters.registryName }}")) {
-          $containerRegistryName="cr$($appNameNoDashesLower)$($environmentCodeLower)$(INSTANCE_NUMBER)"
+          $environmentCodeLower="${{ parameters.environmentCode }}".ToLower()
+          $appNameLowerNoDashes="$(APP_NAME)".ToLower().Replace("-", "")
+          $containerRegistryName="cr$($appNameLowerNoDashes)$($environmentCodeLower)$(INSTANCE_NUMBER)"
         } else {
           $containerRegistryName="${{ parameters.registryName }}"
         }
@@ -77,9 +81,9 @@ steps:
       targetType: 'inline'
       script: |
         echo "parameters.registryName=${{ parameters.registryName }}"
-        echo "containerRegistryName=$containerRegistryName"
+        echo "containerRegistryName=$(containerRegistryName)"
         echo "agentIpAddress=${{ parameters.agentIpAddress }}"
-        echo "ipAddress=$ipAddress"
+        echo "ipAddress=$(ipAddress)"
         echo "serviceConnectionName=${{ parameters.serviceConnectionName }}"
         echo "registryResourceGroup=${{ parameters.registryResourceGroup }}"
         echo "action=${{ parameters.action }}"

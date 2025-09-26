@@ -135,19 +135,19 @@ output project_vm object = {
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Private Endpoint Names (sequential) -- created for the customer need
 output pe object = {
-  storageAccountBlobName:   toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.storageStorageAccounts}-blob')
-  storageAccountTableName:  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.storageStorageAccounts}-table')
-  storageAccountQueueName:  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.storageStorageAccounts}-queue')
-  cosmosDbName:             toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.documentDBDatabaseAccounts}')
-  keyVaultName:             toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.keyVaultVaults}')
-  acrName:                  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.containerRegistryRegistries}')
-  appInsightsName:          toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.insightsComponents}')
-  monitorName:              toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.operationalInsightsWorkspaces}')
-  searchServiceName:        toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.searchSearchServices}')
-  openAIName:               toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.cognitiveServicesOpenAI}')
-  openAIServiceConnection:  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.cognitiveServicesOpenAI}-conn')
-  documentIntelligenceName: toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.documentIntelligence}')
-  aIHubName:                toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.cognitiveServicesHub}')
+  storageAccountBlobName:   toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.storageStorageAccounts}-blob')
+  storageAccountTableName:  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.storageStorageAccounts}-table')
+  storageAccountQueueName:  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.storageStorageAccounts}-queue')
+  cosmosDbName:             toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.documentDBDatabaseAccounts}')
+  keyVaultName:             toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.keyVaultVaults}')
+  acrName:                  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.containerRegistryRegistries}')
+  appInsightsName:          toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.insightsComponents}')
+  monitorName:              toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.operationalInsightsWorkspaces}')
+  searchServiceName:        toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.searchSearchServices}')
+  openAIName:               toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.cognitiveServicesOpenAI}')
+  openAIServiceConnection:  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.cognitiveServicesOpenAI}-conn')
+  documentIntelligenceName: toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.documentIntelligence}')
+  aIHubName:                toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}${dashInstance}-${resourceAbbreviations.cognitiveServicesHub}')
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------

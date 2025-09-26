@@ -60,6 +60,7 @@ steps:
           $containerRegistryName="${{ parameters.registryName }}"
         }
         echo "##vso[task.setvariable variable=containerRegistryName]$containerRegistryName"
+        echo "containerRegistryName=$containerRegistryName"
 
         if ([string]::IsNullOrEmpty("${{ parameters.agentIpAddress }}")) {
           $ipAddress=$(Invoke-WebRequest -Uri "https://api.ipify.org").Content
@@ -67,6 +68,7 @@ steps:
           $ipAddress="${{ parameters.agentIpAddress }}"
         }
         echo "##vso[task.setvariable variable=ipAddress]$ipAddress"
+        echo "ipAddress=$ipAddress"
 
   - task: PowerShell@2
     displayName: Display Variables

@@ -50,21 +50,21 @@ stages:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'add'
-              serviceConnectionName: $(serviceConnectionNameDV)
+              serviceConnectionName: $(serviceConnectionDV)
               registryResourceGroup: $(resourceGroupName)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'TS') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'add'
-              serviceConnectionName: $(serviceConnectionNameTS)
+              serviceConnectionName: $(serviceConnectionTS)
               registryResourceGroup: $(resourceGroupName)
               updateFirewall: ${{ parameters.updateFirewall }}
         - ${{ if eq(upper(environmentCode), 'PD') }}:
           - template: templates/steps-container-registry-template.yml
             parameters:
               action: 'add'
-              serviceConnectionName: $(serviceConnectionNamePD)
+              serviceConnectionName: $(serviceConnectionPD)
               registryResourceGroup: $(resourceGroupName)
               updateFirewall: ${{ parameters.updateFirewall }}
 

@@ -10,3 +10,9 @@ variables:
     value: 'QA Service Connection'
   - name: serviceConnectionProd
     value: 'PROD Service Connection'
+  - name: serviceConnectionDV
+    value: 'DEV Service Connection'
+  - name: serviceConnectionTS
+    value: 'QA Service Connection'
+  - name: serviceConnectionPD
+    value: 'PROD Service Connection'

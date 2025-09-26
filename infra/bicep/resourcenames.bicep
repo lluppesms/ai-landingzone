@@ -7,8 +7,8 @@ param applicationName string = ''
 @description('Root Application Name that this is based on')
 param rootApplication string = ''
 
-@description('Environment name for the application, e.g. azd, dev, demo, qa, stg, ct, prod. This is used to differentiate resources in different environments.')
-param environmentName string = 'dev'
+@description('Environment name for the application, e.g. azd, dev, demo, qa, test, stage, ct, prod. This is used to differentiate resources in different environments.')
+param environmentName string = 'dv'
 
 @description('Global Region where the resources will be deployed, e.g. AM (America), EM (EMEA), AP (APAC), CH (China)')
 //@allowed(['AM', 'EM', 'AP', 'CH', 'US'])
@@ -16,7 +16,7 @@ param regionCode string = 'US'
 
 @description('Instance number for the application, e.g. 001, 002, etc. This is used to differentiate multiple instances of the same application in the same environment.')
 @maxLength(3)
-@minLength(3)
+@minLength(1)
 param instance string = '000'
 
 @description('Optional resource token to ensure uniqueness - leave blank if desired')
@@ -43,7 +43,7 @@ var resourceTokenWithoutDash = resourceToken == '' ? '' : '${resourceToken}'
 
 var dashInstance = instance == '' ? '' : toLower('-${instance}')
 var dashProject = instance == '' ? '' : toLower('-${projectNumber}')
-var partialInstance = substring(instance, 2, 1) // get last digit of a three digit code
+var partialInstance = length(instance) > 2 ? substring(instance, 2, 1) : instance // get last digit of a three digit code
 var partialRegion = substring(regionCode, 0, 1) // get first digit of a two digit code
 
 // pull resource abbreviations from a common JSON file
@@ -98,14 +98,14 @@ output root_vnet_Name string               = toLower('${resourceAbbreviations.ne
 output vnetNsgName string                  = toLower('${resourceAbbreviations.networkNetworkSecurityGroups}-${sanitizedAppName}-${sanitizedEnvironment}-001')
                                
 output subnet object = {
-  appGwName:                                 toLower('snet-app-gateway')
-  appSeName:                                 toLower('snet-app-services')
-  peName:                                    toLower('snet-private-endpoint')
-  agentName:                                 toLower('snet-agent')
+  appGwName:                                 'sn-AppGw'
+  appSeName:                                 'sn-AppSe'
+  peName:                                    'sn-PrivateEndpoint'
+  agentName:                                 'sn-Agent'
+  jumpboxName:                               'sn-JumpBox'
+  trainingName:                              'sn-training'
+  scoringName:                               'sn-scoring'
   bastionName:                               'AzureBastionSubnet' // Must be exactly this name for Azure Bastion
-  jumpboxName:                               toLower('snet-jumpbox')  
-  trainingName:                              toLower('snet-training')
-  scoringName:                               toLower('snet-scoring')
 }
 
 output vm object = {

@@ -135,20 +135,19 @@ output project_vm object = {
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Private Endpoint Names (sequential) -- created for the customer need
 output pe object = {
-  storageAccountBlobName:                    toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-001')
-  storageAccountTableName:                   toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-002')
-  storageAccountQueueName:                   toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-003')
-  cosmosDbName:                              toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-004')
-  keyVaultName:                              toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-005')
-  acrName:                                   toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-006')
-  searchServiceName:                         toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-007')
-  openAIName:                                toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-008')
-  containerAppsName:                         toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-009')
-  documentIntelligenceName:                  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-010')
-  openAIServiceConnection:                   toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-011')
-  aIHubName:                                 toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-012')
-  appInsightsName:                           toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-013')
-  monitorName:                               toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-014')
+  storageAccountBlobName:   toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.storageStorageAccounts}-blob')
+  storageAccountTableName:  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.storageStorageAccounts}-table')
+  storageAccountQueueName:  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.storageStorageAccounts}-queue')
+  cosmosDbName:             toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.documentDBDatabaseAccounts}')
+  keyVaultName:             toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.keyVaultVaults}')
+  acrName:                  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.containerRegistryRegistries}')
+  appInsightsName:          toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.insightsComponents}')
+  monitorName:              toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.operationalInsightsWorkspaces}')
+  searchServiceName:        toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.searchSearchServices}')
+  openAIName:               toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.cognitiveServicesOpenAI}')
+  openAIServiceConnection:  toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.cognitiveServicesOpenAI}-conn')
+  documentIntelligenceName: toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.documentIntelligence}')
+  aIHubName:                toLower('pep-${sanitizedAppName}-${sanitizedEnvironment}-${resourceAbbreviations.cognitiveServicesHub}')
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------

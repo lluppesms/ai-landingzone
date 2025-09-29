@@ -219,5 +219,5 @@ jobs:
               else
                 echo "No files found for secret scanning"
               fi
-          displayName: 'Secrets and Code Quality Scan (Semgrep)'
-          continueOnError: true
+            displayName: 'Secrets and Code Quality Scan (Semgrep)'
+            continueOnError: true

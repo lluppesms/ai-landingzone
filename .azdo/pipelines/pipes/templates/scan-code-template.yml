@@ -221,3 +221,22 @@ jobs:
               fi
             displayName: 'Secrets and Code Quality Scan (Semgrep)'
             continueOnError: true
+
+          - task: PublishTestResults@2
+            displayName: 'Publish Security Test Results'
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '**/security-*.xml'
+              mergeTestResults: true
+              testRunTitle: 'Security Scan Results'
+            condition: always()
+            continueOnError: true
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Security Scan Reports (JSON)'
+            inputs:
+              pathToPublish: '$(System.DefaultWorkingDirectory)'
+              artifactName: 'security-reports'
+              publishLocation: 'Container'
+            condition: always ( )
+            continueOnError: true

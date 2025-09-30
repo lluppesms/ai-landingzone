@@ -153,6 +153,16 @@ resource cognitiveServices_Role_AzureAIEngineer 'Microsoft.Authorization/roleAss
     description: 'Permission for ${principalType} ${identityPrincipalId} to be a Cognitive Services Azure AI Engineer'
   }
 }
+resource cognitiveServices_Role_DataReader 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (addCogServicesRoles) {
+  name: guid(aiService.id, identityPrincipalId, roleDefinitions.openai.cognitiveServicesDataReaderRoleId)
+  scope: aiService
+  properties: {
+    principalId: identityPrincipalId
+    principalType: principalType
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitions.openai.cognitiveServicesDataReaderRoleId)
+    description: 'Permission for ${principalType} ${identityPrincipalId} to be a Cognitive Services Data Reader'
+  }
+}
 
 // ----------------------------------------------------------------------------------------------------
 // Search Roles

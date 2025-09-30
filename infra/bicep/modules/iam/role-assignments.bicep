@@ -156,6 +156,16 @@ resource cognitiveServices_Role_AzureAIEngineer 'Microsoft.Authorization/roleAss
     description: 'Permission for ${principalType} ${identityPrincipalId} to be a Cognitive Services Azure AI Engineer'
   }
 }
+resource cognitiveServices_Role_AzureAIUser 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (addCogServicesRoles) {
+  name: guid(aiService.id, identityPrincipalId, roleDefinitions.openai.cognitiveServicesAzureAIUser)
+  scope: aiService
+  properties: {
+    principalId: identityPrincipalId
+    principalType: principalType
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitions.openai.cognitiveServicesAzureAIUser)
+    description: 'Permission for ${principalType} ${identityPrincipalId} to be a Cognitive Services Azure AI User'
+  }
+}
 resource cognitiveServices_Role_DataReader 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (addCogServicesRoles) {
   name: guid(aiService.id, identityPrincipalId, roleDefinitions.openai.cognitiveServicesDataReaderRoleId)
   scope: aiService
@@ -296,6 +306,7 @@ output cognitiveServicesRoleAssignmentIds object = (addCogServicesRoles) ? {
   cognitiveServices_User_RoleId : cognitiveServices_Role_User.id
   cognitiveServices_Contributor_RoleId : cognitiveServices_Role_Contributor.id
   cognitiveServices_AzureAIEngineer_RoleId : cognitiveServices_Role_AzureAIEngineer.id
+  cognitiveServices_AzureAIUser_RoleId: cognitiveServices_Role_AzureAIUser.id
   cognitiveServices_DataReader_RoleId : cognitiveServices_Role_DataReader.id
 } : {}
 

@@ -266,12 +266,12 @@ resource apimReaderAssignment 'Microsoft.Authorization/roleAssignments@2022-04-0
 //   //scope: resourceGroup(aiHubResourceGroupName)
 // }
 // resource aiHub_Role_DataScientist 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (addAIHubRoles) {
-//   name: guid(aiHub.id, identityPrincipalId, roleDefinitions.ml.dataScientistRole)
+//   name: guid(aiHub.id, identityPrincipalId, roleDefinitions.ml.dataScientistRoleId)
 //   scope: aiHub
 //   properties: {
 //     principalId: identityPrincipalId
 //     principalType: principalType
-//     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitions.ml.dataScientistRole)
+//     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitions.ml.dataScientistRoleId)
 //     description: 'Permission for ${principalType} ${identityPrincipalId} to be in Data Scientist Role'
 //   }
 // }

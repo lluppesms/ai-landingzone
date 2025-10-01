@@ -6,7 +6,6 @@ param location string
 param foundryName string
 param createHubCapabilityHost bool = false
 param managedIdentityId string = ''
-param scriptStorageAccountName string = ''
 param addCapHostDelayScripts bool = true
 
 @description('The number of the AI project to create')
@@ -61,7 +60,6 @@ module waitForProjectScript 'waitDeploymentScript.bicep' = {
     location: location
     seconds: 90
     userManagedIdentityId: managedIdentityId
-    storageAccountName: scriptStorageAccountName
     addCapHostDelayScripts: addCapHostDelayScripts
   }
 }
@@ -140,7 +138,6 @@ module waitForConnectionsScript 'waitDeploymentScript.bicep' = {
     location: location
     seconds: 90
     userManagedIdentityId: managedIdentityId
-    storageAccountName: scriptStorageAccountName
   }
 }
 

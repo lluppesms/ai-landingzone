@@ -567,7 +567,7 @@ module aiProject './modules/ai/ai-project-with-caphost.bicep' = {
     projectNo: 1
     createHubCapabilityHost: true   // this is required for non-vnet injected
     aiDependencies: aiDependencies
-    managedIdentityId: identity.outputs.managedIdentityId
+    // managedIdentityId: identity.outputs.managedIdentityId
   }
 }
 

@@ -261,7 +261,7 @@ var tags = {
 }
 
 // Run a script to dedupe the KeyVault secrets -- this fails on private networks right now so turn if off for them
-var deduplicateKVSecrets = publicAccessEnabled ? deduplicateKeyVaultSecrets : false
+var deduplicateKVSecrets = true //  publicAccessEnabled ? deduplicateKeyVaultSecrets : false
 
 // if either of these are empty or the value is set to string 'null', then we will not deploy the Entra client secrets
 var deployEntraClientSecrets = !(empty(entraClientId) || empty(entraClientSecret) || toLower(entraClientId) == 'null' || toLower(entraClientSecret) == 'null')
@@ -713,7 +713,7 @@ module aiProject './modules/ai/ai-project-with-caphost.bicep' = {
     location: location
     projectNo: 1
     aiDependencies: aiDependencies
-    managedIdentityId: identity.outputs.managedIdentityId
+    // managedIdentityId: identity.outputs.managedIdentityId
   }
 }
 

@@ -122,12 +122,12 @@ jobs:
         inputs:
           targetType: 'inline'
           script: |
-            echo "{""buildDate"":""$(runDateTime)"",""buildNumber"":""$(Build.BuildNumber)"",""buildId"":""$(Build.BuildId)"",""imageTag"":""$(Build.BuildId)"",""branchName"":""$(Build.SourceBranchName)"",""commitHash"":""$(Build.SourceVersion)""}" > $(buildInfoFileName)
+            echo "{""buildDate"":""$(runDateTime)"", ""buildNumber"":""$(Build.BuildNumber)"", ""buildId"":""$(Build.BuildId)"", ""imageTag"":""$(Build.BuildId)"", ""branchName"":""$(Build.SourceBranchName)"", ""commitHash"":""$(Build.SourceVersion)""}" > $(buildInfoFileName)
             echo "##[group]Contents of buildInfo File:"
             cat $(buildInfoFileName)
             echo "##[endgroup]"
             echo "##[group]Directory of pipeline workspace:"
-            tree -L 5 $(Pipeline.Workspace)\src
+            tree -L 5 $(Pipeline.Workspace)/src
             echo "##[endgroup]"
 
       # ----------------------------------------------------------------------------------------------------

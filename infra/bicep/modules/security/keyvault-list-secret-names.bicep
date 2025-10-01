@@ -7,7 +7,6 @@ param keyVaultName string = 'myKeyVault'
 param location string = resourceGroup().location
 param utcValue string = utcNow()
 param userManagedIdentityId string = ''
-param storageAccountName string = ''
 
 resource getKeyVaultSecretNames 'Microsoft.Resources/deploymentScripts@2023-08-01' = {
   name: 'getKeyVaultSecretNameList'
@@ -19,7 +18,6 @@ resource getKeyVaultSecretNames 'Microsoft.Resources/deploymentScripts@2023-08-0
   }
   properties: {
     azPowerShellVersion: '11.0'
-    storageAccountSettings: { storageAccountName: storageAccountName }
     forceUpdateTag: utcValue
     retentionInterval: 'PT1H'
     timeout: 'PT5M'

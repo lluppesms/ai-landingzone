@@ -334,7 +334,6 @@ module keyVaultSecretList './modules/security/keyvault-list-secret-names.bicep' 
     keyVaultName: keyVault.outputs.name
     location: location
     userManagedIdentityId: identity.outputs.managedIdentityId
-    storageAccountName: storage.outputs.name
   }
 }
 
@@ -579,7 +578,6 @@ module aiProject './modules/ai/ai-project-with-caphost.bicep' = {
     createHubCapabilityHost: true   // this is required for non-vnet injected
     aiDependencies: aiDependencies
     managedIdentityId: identity.outputs.managedIdentityId
-    scriptStorageAccountName: storage.outputs.name
     addCapHostDelayScripts: addCapHostDelayScripts
   }
 }

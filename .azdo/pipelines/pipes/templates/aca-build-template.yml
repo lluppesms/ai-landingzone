@@ -121,6 +121,12 @@ jobs:
         inputs:
           script: |
             echo {"buildDate":"$(runDateTime)","buildNumber":"$(Build.BuildNumber)","buildId":"$(Build.BuildId)","imageTag":"$(Build.BuildId)","branchName":"$(Build.SourceBranchName)","commitHash":"$(Build.SourceVersion)"} > $(buildInfoFileName)
+            echo "##[group]Contents of buildInfo File:"
+            cat $(buildInfoFileName)
+            echo "##[endgroup]"
+            echo "##[group]Directory of pipeline workspace:"
+            tree -L 4 $(Pipeline.Workspace)
+            echo "##[endgroup]"
         continueOnError: true
 
       # ----------------------------------------------------------------------------------------------------

@@ -724,7 +724,6 @@ module aiProject './modules/ai/ai-project-with-caphost.bicep' = {
     projectNo: 1
     aiDependencies: aiDependencies
     managedIdentityId: identity.outputs.managedIdentityId
-    scriptStorageAccountName: storage.outputs.name
     addCapHostDelayScripts: addCapHostDelayScripts
   }
 }

@@ -126,8 +126,8 @@ jobs:
             echo "##[group]Contents of buildInfo File:"
             cat $(buildInfoFileName)
             echo "##[endgroup]"
-            echo "##[group]Directory of pipeline workspace:"
-            tree -L 5 $(Pipeline.Workspace)/src
+            echo "##[group]File info for pipeline workspace:"
+            Get-ChildItem -Path $(System.DefaultWorkingDirectory)/${{ parameters.projectFolderName }} -Recurse
             echo "##[endgroup]"
 
       # ----------------------------------------------------------------------------------------------------

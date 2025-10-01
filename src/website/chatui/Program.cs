@@ -44,16 +44,8 @@ builder.Services.AddSingleton((provider) =>
     var config = provider.GetRequiredService<IOptions<ChatApiOptions>>().Value;
     // if doing local development and you get error "Token tenant does not match resource tenant", force the tenant
     var vsTenantId = config.VisualStudioTenantId;
-    var credential = string.IsNullOrEmpty(vsTenantId) ?
-        new DefaultAzureCredential() :
-        new DefaultAzureCredential(new DefaultAzureCredentialOptions
-        {
-            ExcludeEnvironmentCredential = true,
-            ExcludeManagedIdentityCredential = true,
-            TenantId = vsTenantId
-        });
+    var credential = CredentialsHelper.GetCredentials(vsTenantId, config.UserAssignedManagedIdentityClientId);
     PersistentAgentsClient client = new(config.AppAgentEndpoint, credential);
-
     return client;
 });
 

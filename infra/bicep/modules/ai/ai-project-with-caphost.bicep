@@ -138,6 +138,7 @@ module waitForConnectionsScript 'waitDeploymentScript.bicep' = {
     location: location
     seconds: 90
     userManagedIdentityId: managedIdentityId
+    addCapHostDelayScripts: addCapHostDelayScripts
   }
 }
 

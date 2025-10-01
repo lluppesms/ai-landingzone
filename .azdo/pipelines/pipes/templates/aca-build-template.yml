@@ -127,7 +127,7 @@ jobs:
             cat $(buildInfoFileName)
             echo "##[endgroup]"
             echo "##[group]Directory of pipeline workspace:"
-            tree -L 4 $(Pipeline.Workspace)
+            tree -L 5 $(Pipeline.Workspace)\src
             echo "##[endgroup]"
 
       # ----------------------------------------------------------------------------------------------------

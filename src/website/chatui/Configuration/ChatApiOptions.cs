@@ -12,8 +12,6 @@ public class ChatApiOptions
     public string AppAgentId { get; init; } = default!;
 
     public string AppAgentName { get; init; } = default!;
-
-
     public string? VisualStudioTenantId { get; init; }
 
 

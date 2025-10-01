@@ -113,9 +113,6 @@ jobs:
           scriptType: bash
           scriptLocation: inlineScript
           inlineScript: |
-            echo "Running 'az Login' to refresh token..."
-            az login
-
             echo "Logging in to $(containerRegistryName)"
             az acr login -n $(containerRegistryName)
             

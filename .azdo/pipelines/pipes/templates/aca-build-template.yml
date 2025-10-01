@@ -129,7 +129,6 @@ jobs:
             echo "##[group]Directory of pipeline workspace:"
             tree -L 4 $(Pipeline.Workspace)
             echo "##[endgroup]"
-        continueOnError: true
 
       # ----------------------------------------------------------------------------------------------------
       # Build the image

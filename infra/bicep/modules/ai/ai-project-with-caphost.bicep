@@ -24,7 +24,7 @@ module aiProject './ai-project.bicep' = {
     projectName: 'ai-project-${projectNo}'
     projectDescription: 'AI Project ${projectNo}'
     displayName: 'AI Project ${projectNo}'
-    managedIdentityId: null // Use System Assigned Identity
+    // managedIdentityId: null // Use System Assigned Identity
 
     aiSearchName: aiDependencies.aiSearch.name
     aiSearchServiceResourceGroupName: aiDependencies.aiSearch.resourceGroupName
@@ -41,26 +41,26 @@ module aiProject './ai-project.bicep' = {
 }
 
 // NOTE: using a wait script to ensure the project is fully deployed before proceeding with role assignments and connections
-// this br/public:deployment-scripts/wait module has been deprecated...
-module waitForProjectScript 'br/public:deployment-scripts/wait:1.1.1' = {
-  name: 'waitForProjectScript-${projectNo}'
-  dependsOn: [aiProject]
-  params: {
-    waitSeconds: 90
-    location: resourceGroup().location
-  }
-}
-// fails because it's trying to use key based access to the storage account
-// module waitForProjectScript 'waitDeploymentScript.bicep' = {
+// // this br/public:deployment-scripts/wait module has been deprecated...
+// module waitForProjectScript 'br/public:deployment-scripts/wait:1.1.1' = {
 //   name: 'waitForProjectScript-${projectNo}'
 //   dependsOn: [aiProject]
 //   params: {
-//     name: 'script-wait-proj-${projectNo}'
-//     location: location
-//     seconds: 90
-//     userManagedIdentityId: managedIdentityId
+//     waitSeconds: 90
+//     location: resourceGroup().location
 //   }
 // }
+// fails because it's trying to use key based access to the storage account
+module waitForProjectScript 'waitDeploymentScript.bicep' = {
+  name: 'waitForProjectScript-${projectNo}'
+  dependsOn: [aiProject]
+  params: {
+    name: 'script-wait-proj-${projectNo}'
+    location: location
+    seconds: 90
+    // userManagedIdentityId: managedIdentityId
+  }
+}
 
 
 module formatProjectWorkspaceId './format-project-workspace-id.bicep' = {
@@ -119,25 +119,25 @@ module addProjectCapabilityHost 'add-project-capability-host.bicep' = {
 
 // NOTE: using a wait script to ensure all connections are established before finishing the capability host
 // this br/public:deployment-scripts/wait module has been deprecated...
-module waitForConnectionsScript 'br/public:deployment-scripts/wait:1.1.1' = {
-  name:  'waitForConnectionsScript-${projectNo}'
-  dependsOn: [addProjectCapabilityHost]
-  params: {
-    waitSeconds: 90
-    location: resourceGroup().location
-  }
-}
-// but this fails because it's trying to use key based access to the storage account
-// module waitForConnectionsScript 'waitDeploymentScript.bicep' = {
-//   name: 'waitForConnectionsScript-${projectNo}'
+// module waitForConnectionsScript 'br/public:deployment-scripts/wait:1.1.1' = {
+//   name:  'waitForConnectionsScript-${projectNo}'
 //   dependsOn: [addProjectCapabilityHost]
 //   params: {
-//     name: 'script-wait-connections-${projectNo}'
-//     location: location
-//     seconds: 90
-//     userManagedIdentityId: managedIdentityId
+//     waitSeconds: 90
+//     location: resourceGroup().location
 //   }
 // }
+// but this fails because it's trying to use key based access to the storage account
+module waitForConnectionsScript 'waitDeploymentScript.bicep' = {
+  name: 'waitForConnectionsScript-${projectNo}'
+  dependsOn: [addProjectCapabilityHost]
+  params: {
+    name: 'script-wait-connections-${projectNo}'
+    location: location
+    seconds: 90
+    // userManagedIdentityId: managedIdentityId
+  }
+}
 
 // The Storage Blob Data Owner role must be assigned after the caphost is created
 module storageContainersRoleAssignment '../iam/blob-storage-container-role-assignments.bicep' = {

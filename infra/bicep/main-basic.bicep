@@ -325,6 +325,7 @@ module keyVaultSecretList './modules/security/keyvault-list-secret-names.bicep' 
     keyVaultName: keyVault.outputs.name
     location: location
     userManagedIdentityId: identity.outputs.managedIdentityId
+    storageAccountName: storage.outputs.name
   }
 }
 

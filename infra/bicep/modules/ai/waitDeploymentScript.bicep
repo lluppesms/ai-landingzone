@@ -7,12 +7,11 @@ param location string
 @description('Required. Sleep/wait time for the deployment script in seconds.')
 param seconds int
 
-// param utcValue string = utcNow()
-
-param userManagedIdentityId string = ''
+param userManagedIdentityResourceId string = ''
 param addCapHostDelayScripts bool = true
 param storageAccountName string
 
+// This creates a storage account for the deployment script with key access to use if addCapHostDelayScripts is true
 module storageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = if (addCapHostDelayScripts) {
   name: 'storageAccount-${storageAccountName}'
   params: {
@@ -32,7 +31,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = if (a
     }
     roleAssignments: [
       {
-        principalId: userManagedIdentityId
+        principalId: userManagedIdentityResourceId
         principalType: 'ServicePrincipal'
         roleDefinitionIdOrName: 'Storage File Data Privileged Contributor'
       }
@@ -50,7 +49,7 @@ module deploymentScript 'br/public:avm/res/resources/deployment-script:0.5.1' = 
     azCliVersion: '2.75.0'
     cleanupPreference: 'Always'
     location: location
-    managedIdentities: { userAssignedResourceIds: [userManagedIdentityId] }
+    managedIdentities: { userAssignedResourceIds: [userManagedIdentityResourceId] }
     tags: { 'hidden-title': 'For deployment script' }
     retentionInterval: 'PT1H'
     runOnce: true

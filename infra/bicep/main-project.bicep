@@ -343,7 +343,8 @@ module aiProject1 './modules/ai/ai-project-with-caphost.bicep' = {
     location: location
     projectNo: projectNumber
     aiDependencies: aiDependecies
-    managedIdentityId: identity.outputs.managedIdentityPrincipalId
+    // managedIdentityId: identity.outputs.managedIdentityPrincipalId
+    managedIdentityResourceId: identity.outputs.managedIdentityId
     addCapHostDelayScripts: addCapHostDelayScripts
   }
   dependsOn: [allDnsZones]

@@ -5,7 +5,8 @@ param aiDependencies types.aiDependenciesType
 param location string
 param foundryName string
 param createHubCapabilityHost bool = false
-param managedIdentityId string = ''
+//param managedIdentityId string = ''
+param managedIdentityResourceId string = ''
 param addCapHostDelayScripts bool = true
 
 @description('The number of the AI project to create')
@@ -59,7 +60,7 @@ module waitForProjectScript 'waitDeploymentScript.bicep' = {
     name: 'script-wait-proj-${projectNo}'
     location: location
     seconds: 90
-    userManagedIdentityId: managedIdentityId
+    userManagedIdentityId: managedIdentityResourceId
     addCapHostDelayScripts: addCapHostDelayScripts
     storageAccountName: toLower('stwaitproj${uniqueString(resourceGroup().id)}1')  
   }
@@ -138,7 +139,7 @@ module waitForConnectionsScript 'waitDeploymentScript.bicep' = {
     name: 'script-wait-connections-${projectNo}'
     location: location
     seconds: 90
-    userManagedIdentityId: managedIdentityId
+    userManagedIdentityId: managedIdentityResourceId
     addCapHostDelayScripts: addCapHostDelayScripts
     storageAccountName: toLower('stwaitconn${uniqueString(resourceGroup().id)}2')
   }

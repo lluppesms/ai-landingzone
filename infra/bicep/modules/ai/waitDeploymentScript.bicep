@@ -14,6 +14,7 @@ param location string
 param seconds int
 
 param userManagedIdentityResourceId string = ''
+param userManagedIdentityId string = ''
 param addCapHostDelayScripts bool = true
 param storageAccountName string
 
@@ -37,7 +38,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = if (a
     }
     roleAssignments: [
       {
-        principalId: userManagedIdentityResourceId
+        principalId: userManagedIdentityId
         principalType: 'ServicePrincipal'
         roleDefinitionIdOrName: 'Storage File Data Privileged Contributor'
       }

@@ -1,3 +1,9 @@
+// --------------------------------------------------------------------------------------------------------------
+// You can deploy it with this command:
+// --------------------------------------------------------------------------------------------------------------
+//   az deployment group create -n "manual-wait-$(Get-Date -Format \'yyyyMMdd-HHmmss\')" --resource-group rg_mfg-ai-lz --template-file 'waitDeploymentScript.bicep' --parameters name=script-wait-proj-2 location=eastus2 seconds=90 userManagedIdentityResourceId=/subscriptions/XXXX/resourceGroups/rg-YYYYY/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-ZZZZ addCapHostDelayScripts=true storageAccountName=stwaitprojXXXXXXXXX
+// --------------------------------------------------------------------------------------------------------------
+
 @description('Required. Name of the deployment script.')
 param name string
 

@@ -21,6 +21,9 @@ param existingAiCentralAppName string = ''
 @description('Existing AI Landing Zone resource group')
 param existingAiCentralResourceGroupName string
 
+@description('Name of existing Cosmos account to reuse?')
+param existingCosmosAccountName string = ''
+
 @description('The environment code (i.e. dev, qa, prod)')
 param environmentName string = ''
 
@@ -103,6 +106,8 @@ var tags = {
 }
 
 var deployVirtualMachine = !empty(vm_username) && !empty(vm_password)
+// Should we deploy a Cosmos or reuse existing?
+var deployCosmos = !empty(existingCosmosAccountName) ? false : true
 
 // --------------------------------------------------------------------------------------------------------------
 // -- Resource Groups -------------------------------------------------------------------------------------------
@@ -232,10 +237,8 @@ module cosmos './modules/database/cosmosdb.bicep' = {
   name: 'cosmos${deploymentSuffix}'
   scope: projectResourceGroup
   params: {
-
-    accountName: resourceNames.outputs.cosmosName
-    //    existingAccountName: resourceNames.outputs.cosmosName
-
+    accountName: deployCosmos ? resourceNames.outputs.cosmosName : ''
+    existingAccountName: deployCosmos ? '' : existingCosmosAccountName
     databaseName: uiDatabaseName
     sessionsDatabaseName: sessionsDatabaseName
     sessionContainerArray: sessionsContainerArray

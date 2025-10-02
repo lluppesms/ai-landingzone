@@ -53,7 +53,7 @@ module waitForProjectScript 'waitDeploymentScript.bicep' = {
     userManagedIdentityResourceId: managedIdentityResourceId
     userManagedIdentityId: managedIdentityId
     addCapHostDelayScripts: addCapHostDelayScripts
-    storageAccountName: '${storageAccountNameBase}-scripts'
+    storageAccountName: '${storageAccountNameBase}ps1'
   }
 }
 
@@ -121,7 +121,7 @@ module waitForConnectionsScript 'waitDeploymentScript.bicep' = {
     userManagedIdentityResourceId: managedIdentityResourceId
     userManagedIdentityId: managedIdentityId
     addCapHostDelayScripts: addCapHostDelayScripts
-    storageAccountName: '${storageAccountNameBase}-scripts'
+    storageAccountName: '${storageAccountNameBase}ps1'
   }
 }
 

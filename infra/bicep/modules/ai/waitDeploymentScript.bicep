@@ -49,20 +49,17 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = if (a
 module deploymentScript 'br/public:avm/res/resources/deployment-script:0.5.1' = if (addCapHostDelayScripts) {
   name: name
   params: {
-    // Required parameters
-    kind: 'AzureCLI'
     name: name
-    // Non-required parameters
-    azCliVersion: '2.75.0'
+    kind: 'AzurePowerShell'
     cleanupPreference: 'Always'
+    retentionInterval: 'PT1H'
+    timeout: 'PT5M'
     location: location
     managedIdentities: { userAssignedResourceIds: [userManagedIdentityResourceId] }
     tags: { 'hidden-title': 'For deployment script' }
-    retentionInterval: 'PT1H'
     runOnce: true
     scriptContent: 'Write-Host "Waiting for ${seconds} seconds..." ; Start-Sleep -Seconds ${seconds}; Write-Host "Wait complete."'
     storageAccountResourceId: storageAccount.outputs.resourceId
-    timeout: 'PT5M'
   }
 }
 

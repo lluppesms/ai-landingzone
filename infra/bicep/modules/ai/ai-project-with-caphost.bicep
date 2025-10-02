@@ -60,7 +60,7 @@ module waitForProjectScript 'waitDeploymentScript.bicep' = {
     name: 'script-wait-proj-${projectNo}'
     location: location
     seconds: 90
-    // userManagedIdentityResourceId: managedIdentityResourceId
+    userManagedIdentityResourceId: managedIdentityResourceId
     userManagedIdentityId: managedIdentityId
     addCapHostDelayScripts: addCapHostDelayScripts
     storageAccountName: toLower('stwaitproj${uniqueString(resourceGroup().id)}1')  
@@ -140,7 +140,7 @@ module waitForConnectionsScript 'waitDeploymentScript.bicep' = {
     name: 'script-wait-connections-${projectNo}'
     location: location
     seconds: 90
-    // userManagedIdentityResourceId: managedIdentityResourceId
+    userManagedIdentityResourceId: managedIdentityResourceId
     userManagedIdentityId: managedIdentityId
     addCapHostDelayScripts: addCapHostDelayScripts
     storageAccountName: toLower('stwaitconn${uniqueString(resourceGroup().id)}2')

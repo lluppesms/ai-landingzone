@@ -14,7 +14,7 @@ param location string
 param seconds int
 
 param utcValue string = utcNow()
-// param userManagedIdentityResourceId string = ''
+param userManagedIdentityResourceId string = ''
 param userManagedIdentityId string = ''
 param addCapHostDelayScripts bool = true
 param storageAccountName string
@@ -53,7 +53,7 @@ resource waitScript 'Microsoft.Resources/deploymentScripts@2023-08-01' = if (add
   kind: 'AzurePowerShell'
   identity: {
     type: 'UserAssigned'
-    userAssignedIdentities: { '${ userManagedIdentityId }': {} }
+    userAssignedIdentities: { '${ userManagedIdentityResourceId }': {} }
   }
   properties: {
     storageAccountSettings: { storageAccountName: storageAccountName, storageAccountKey: storageAccount.outputs.primaryAccessKey } // Note: this doesn't work without the access key...

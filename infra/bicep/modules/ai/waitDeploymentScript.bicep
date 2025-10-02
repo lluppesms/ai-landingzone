@@ -23,7 +23,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = if (a
     kind: 'StorageV2'
     tags: {
       SecurityControl: 'Ignore'
-      'hidden-title': 'For deployment script'
+      'hidden-title': 'For deployment scripts'
     }
     allowSharedKeyAccess: true
     publicNetworkAccess: 'Enabled'

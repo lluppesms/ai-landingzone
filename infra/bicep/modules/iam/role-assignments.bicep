@@ -176,6 +176,16 @@ resource cognitiveServices_Role_DataReader 'Microsoft.Authorization/roleAssignme
     description: 'Permission for ${principalType} ${identityPrincipalId} to be a Cognitive Services Data Reader'
   }
 }
+resource cognitiveServicesDataContributorRoleId 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (addCogServicesRoles) {
+  name: guid(aiService.id, identityPrincipalId, roleDefinitions.openai.cognitiveServicesDataContributorRoleId)
+  scope: aiService
+  properties: {
+    principalId: identityPrincipalId
+    principalType: principalType
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitions.openai.cognitiveServicesDataContributorRoleId)
+    description: 'Permission for ${principalType} ${identityPrincipalId} to be a Cognitive Services Data Contributor'
+  }
+}
 
 // ----------------------------------------------------------------------------------------------------
 // Search Roles

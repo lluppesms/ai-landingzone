@@ -36,7 +36,7 @@ param instanceNumber = '#{INSTANCE_NUMBER}#'
 param createDnsZones = true
 param publicAccessEnabled = false
 
-param existingCosmosAccountName = empty('#{EXISTING_COSMOS_ACCOUNT_NAME}#') ? null : '#{EXISTING_COSMOS_ACCOUNT_NAME}#'
+param existingCosmosAccountName = empty('#{EXISTING_PROJECT_COSMOS_ACCOUNT_NAME}#') ? null : '#{EXISTING_PROJECT_COSMOS_ACCOUNT_NAME}#'
 
 param vm_username = empty('#{VM_USERNAME}#') ? null : '#{VM_USERNAME}#' // This is the username for the admin user of jumpboxvm
 param vm_password = empty('#{VM_PASSWORD}#') ? null : '#{VM_PASSWORD}#' // This is the password for the admin user of jumpboxvm

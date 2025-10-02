@@ -1,18 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------
-// You can deploy it with this command:
+// Wait a minute...  and this needs a storage account with key access for the deployment script to work
 // --------------------------------------------------------------------------------------------------------------
-//   az deployment group create -n "manual-wait-$(Get-Date -Format \'yyyyMMdd-HHmmss\')" --resource-group rg_mfg-ai-lz --template-file 'waitDeploymentScript.bicep' --parameters name=script-wait-proj-2 location=eastus2 seconds=90 userManagedIdentityResourceId=/subscriptions/XXXX/resourceGroups/rg-YYYYY/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-ZZZZ addCapHostDelayScripts=true storageAccountName=stwaitprojXXXXXXXXX
-// --------------------------------------------------------------------------------------------------------------
-
 @description('Required. Name of the deployment script.')
 param name string
-
 @description('Required. Location for the deployment script.')
 param location string
-
 @description('Required. Sleep/wait time for the deployment script in seconds.')
 param seconds int
-
 param utcValue string = utcNow()
 param userManagedIdentityResourceId string = ''
 param userManagedIdentityId string = ''
@@ -65,20 +59,3 @@ resource waitScript 'Microsoft.Resources/deploymentScripts@2023-08-01' = if (add
     scriptContent: 'Write-Host "Waiting for ${seconds} seconds..." ; Start-Sleep -Seconds ${seconds}; Write-Host "Wait complete."'
   }
 }
-
-// module deploymentScript 'br/public:avm/res/resources/deployment-script:0.5.1' = if (addCapHostDelayScripts) {
-//   name: name
-//   params: {
-//     name: name
-//     kind: 'AzurePowerShell'
-//     cleanupPreference: 'Always'
-//     retentionInterval: 'PT1H'
-//     timeout: 'PT5M'
-//     location: location
-//     managedIdentities: { userAssignedResourceIds: [userManagedIdentityResourceId] }
-//     tags: { 'hidden-title': 'For deployment script' }
-//     runOnce: true
-//     scriptContent: 'Write-Host "Waiting for ${seconds} seconds..." ; Start-Sleep -Seconds ${seconds}; Write-Host "Wait complete."'
-//     storageAccountResourceId: storageAccount.outputs.resourceId
-//   }
-// }
